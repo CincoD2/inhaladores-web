@@ -506,6 +506,7 @@ function resetFiltros() {
   width: 18%;
   text-align: left;
   white-space: normal;
+  line-height: 1.3;
 }
 
 /* Dispositivo */
@@ -541,6 +542,7 @@ function resetFiltros() {
 .tabla-intranet td:nth-child(7) {
   width: 14%;
   text-align: left;
+  line-height: 1.3;
 }
 
 `}</style>

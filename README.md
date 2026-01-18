@@ -1,2 +1,3 @@
-# inhaladores-web
-Dispositivos Broncodilatadores comercializados en España
+# Inhaladores Web
+
+Frontend para el buscador de inhaladores basado en datos CIMA (AEMPS).

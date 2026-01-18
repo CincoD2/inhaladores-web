@@ -1,0 +1,212 @@
+/* ===============================
+   TABLA INHALADORES – ESTILO INTRANET
+   Ajustada a ancho máximo ~1106px
+================================ */
+
+/* CONTENEDOR */
+.tabla-wrapper {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* TABLA BASE */
+.tabla-intranet {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  font-size: 14px;
+  table-layout: fixed;
+}
+
+/* CABECERA */
+.tabla-intranet thead th {
+  background-color: #4f7f8a;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 6px 6px;
+  border-bottom: 2px solid #3f6973;
+}
+
+/* CELDAS */
+.tabla-intranet td {
+  padding: 6px 6px;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+  color: #111827;
+  white-space: normal;
+}
+
+/* HOVER */
+.tabla-intranet tbody tr:hover {
+  background-color: #e3edef;
+}
+
+/* ===============================
+   ANCHOS Y ALINEACIÓN DE COLUMNAS
+   (suman ~100%)
+================================ */
+
+.col-nombre {
+  width: 28%;
+  text-align: left;
+}
+
+.col-pa {
+  width: 21%;
+  text-align: left;
+  line-height: 1.3;
+}
+
+.col-dispositivo {
+  width: 8%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.col-indicacion {
+  width: 10%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.col-tipo {
+  width: 8%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.col-lab {
+  width: 25%;
+  text-align: left;
+  line-height: 1.3;
+}
+
+/* ===============================
+   NOMBRE (2 líneas máx)
+================================ */
+
+.nombre-cell {
+  overflow: hidden;
+}
+
+.nombre-wrapper {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+.nombre-marca {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.nombre-resto {
+  font-weight: 400;
+  text-transform: lowercase;
+}
+
+/* ===============================
+   BADGES
+================================ */
+
+.badge {
+  display: inline-block;
+  padding: 2px 6px;
+  margin-right: 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Indicaciones */
+.badge-asma {
+  background: #e6f4ea;
+  color: #137333;
+}
+
+.badge-epoc {
+  background: #fff4e5;
+  color: #92400e;
+}
+
+/* Tipo tratamiento */
+.badge-mono {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.badge-dual {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.badge-triple {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ===============================
+   FILTROS (BOTONES)
+================================ */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filtro-titulo {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.filtro-botones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filtro-btn {
+  min-width: 90px;
+  padding: 8px 14px;
+  font-size: 14px;
+  background: #ffffff;
+  color: #374151;
+  border: 2px solid #5a7f8a;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filtro-btn:hover {
+  background: #eef5f7;
+}
+
+.filtro-btn.activo {
+  background: #5a7f8a;
+  color: #ffffff;
+}
+
+/* BOTÓN BORRAR FILTROS */
+.filtro-reset-btn {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #991b1b;
+  font-weight: 600;
+}
+
+.filtro-reset-btn:hover {
+  background: #fecaca;
+}

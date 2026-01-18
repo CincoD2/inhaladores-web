@@ -210,3 +210,32 @@
 .filtro-reset-btn:hover {
   background: #fecaca;
 }
+
+
+/* ESTILO DE PAGINACIÓN */
+.paginacion {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.paginacion button {
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.paginacion button.activo {
+  background: #4f7f8a;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.paginacion button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

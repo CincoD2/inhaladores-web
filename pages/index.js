@@ -99,7 +99,6 @@ export default function Home() {
       <table width="100%" cellPadding={8} style={{ borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ borderBottom: '2px solid #ddd' }}>
-            <th>Imagen</th>
             <th>Nombre</th>
             <th>Principio activo</th>
             <th>Dispositivo</th>
@@ -116,13 +115,7 @@ export default function Home() {
               onMouseEnter={e => (e.currentTarget.style.background = '#f5f5f5')}
               onMouseLeave={e => (e.currentTarget.style.background = '')}
             >
-              <td>
-                {d.IMAGEN_URL ? (
-                  <img src={d.IMAGEN_URL} alt="" width="60" />
-                ) : (
-                  ''
-                )}
-              </td>
+              
               <td>{d.nombre}</td>
               <td>{d.vtm}</td>
               <td>{d.DISPOSITIVO}</td>

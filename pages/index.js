@@ -1,18 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
+import Papa from 'papaparse';
 
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRk7eftV0jKqjyLSf0nlVdheLthzEe6YnLH7UfKoKz_8rO0egB7imlswiymtLSRFhUFTv-XA-emUJyT/pub?gid=1829034177&single=true&output=csv';
 
-function parseCSV(text) {
-  const lines = text.split('\n').filter(Boolean);
-  const rows = lines.map(l => l.split(','));
-  const headers = rows[0];
-  const data = rows.slice(1).map(r => {
-    const obj = {};
-    headers.forEach((h, i) => (obj[h] = r[i]));
-    return obj;
-  });
-  return data;
-}
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -25,10 +15,16 @@ export default function Home() {
   });
 
   useEffect(() => {
-    fetch(CSV_URL)
-      .then(r => r.text())
-      .then(t => setData(parseCSV(t)));
-  }, []);
+  fetch(CSV_URL)
+    .then(r => r.text())
+    .then(text => {
+      const parsed = Papa.parse(text, {
+        header: true,
+        skipEmptyLines: true
+      });
+      setData(parsed.data);
+    });
+}, []);
 
   const dispositivos = useMemo(
     () => Array.from(new Set(data.map(d => d.DISPOSITIVO))).filter(Boolean).sort(),

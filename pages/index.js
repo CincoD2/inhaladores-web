@@ -252,7 +252,7 @@ function resetFiltros() {
     <th className="col-pa">Principio activo</th>
     <th className="col-dispositivo">Dispositivo</th>
     <th className="col-indicacion">Indicación</th>
-    <th className="col-tipo">Tipo tratamiento</th>
+    <th className="col-tipo">Tipo</th>
     <th className="col-lab">Laboratorio</th>
   </tr>
 </thead>

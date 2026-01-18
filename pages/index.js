@@ -244,7 +244,7 @@ function resetFiltros() {
             <th>Nombre</th>
             <th>Principio activo</th>
             <th>Dispositivo</th>
-            <th>Tipo inhalador</th>
+            
             <th>Indicación</th>
             <th>Tipo tratamiento</th>
             <th>Laboratorio</th>
@@ -271,7 +271,7 @@ function resetFiltros() {
                 </td>
                 <td>{toTitleCase(d.vtm)}</td>
                 <td>{d.DISPOSITIVO}</td>
-                <td>{d.DISPOSITIVO_INHALACION}</td>
+                
                 <td>
   {d['ASMA (FT 4.1)'] === 'Sí' && (
     <span className="badge badge-asma">Asma</span>
@@ -496,14 +496,14 @@ function resetFiltros() {
 /* Nombre (la más ancha) */
 .tabla-intranet th:nth-child(1),
 .tabla-intranet td:nth-child(1) {
-  width: 32%;
+  width: 36%;
   text-align: left;
 }
 
 /* Principio activo */
 .tabla-intranet th:nth-child(2),
 .tabla-intranet td:nth-child(2) {
-  width: 18%;
+  width: 20%;
   text-align: left;
   white-space: normal;
   line-height: 1.3;
@@ -512,21 +512,15 @@ function resetFiltros() {
 /* Dispositivo */
 .tabla-intranet th:nth-child(3),
 .tabla-intranet td:nth-child(3) {
-  width: 10%;
+  width: 12%;
   text-align: center;
 }
 
-/* Tipo inhalador */
-.tabla-intranet th:nth-child(4),
-.tabla-intranet td:nth-child(4) {
-  width: 8%;
-  text-align: center;
-}
 
 /* Indicación */
 .tabla-intranet th:nth-child(5),
 .tabla-intranet td:nth-child(5) {
-  width: 10%;
+  width: 14%;
   text-align: center;
 }
 
@@ -540,9 +534,13 @@ function resetFiltros() {
 /* Laboratorio */
 .tabla-intranet th:nth-child(7),
 .tabla-intranet td:nth-child(7) {
-  width: 14%;
+  width: 10%;
   text-align: left;
   line-height: 1.3;
+}
+/* Indicación: badges siempre visibles */
+.tabla-intranet td:nth-child(4) {
+  white-space: nowrap;
 }
 
 `}</style>

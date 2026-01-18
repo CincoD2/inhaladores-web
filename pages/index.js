@@ -247,16 +247,15 @@ function resetFiltros() {
       {/* TABLA */}
       <table className="tabla-intranet">
         <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Principio activo</th>
-            <th>Dispositivo</th>
-            
-            <th>Indicación</th>
-            <th>Tipo tratamiento</th>
-            <th>Laboratorio</th>
-          </tr>
-        </thead>
+  <tr>
+    <th className="col-nombre">Nombre</th>
+    <th className="col-pa">Principio activo</th>
+    <th className="col-dispositivo">Dispositivo</th>
+    <th className="col-indicacion">Indicación</th>
+    <th className="col-tipo">Tipo tratamiento</th>
+    <th className="col-lab">Laboratorio</th>
+  </tr>
+</thead>
 
         <tbody>
           {filteredAndSortedData.map((d, i) => {
@@ -270,16 +269,16 @@ function resetFiltros() {
                 }
                 style={{ cursor: 'pointer' }}
               >
-                <td className="nombre-cell">
+                <td className="col-nombre nombre-cell">
                   <span className="nombre-wrapper" title={n.completo}>
                     <strong>{n.marca}</strong>
                     {n.resto && <span>&nbsp;{n.resto}</span>}
                   </span>
                 </td>
-                <td>{toTitleCase(d.vtm)}</td>
-                <td>{d.DISPOSITIVO}</td>
+                <td className="col-pa">{toTitleCase(d.vtm)}</td>
+                <td className="col-dispositivo">{d.DISPOSITIVO}</td>
                 
-                <td>
+                <td className="col-indicacion">
   {d['ASMA (FT 4.1)'] === 'Sí' && (
     <span className="badge badge-asma">Asma</span>
   )}
@@ -287,12 +286,12 @@ function resetFiltros() {
     <span className="badge badge-epoc">EPOC</span>
   )}
 </td>
-                <td>
+                <td className="col-tipo">
   <span className={`badge badge-${d.TIPO_TRATAMIENTO?.toLowerCase()}`}>
     {d.TIPO_TRATAMIENTO}
   </span>
 </td>
-                <td>{d.labcomercializador}</td>
+                <td className="col-lab">{d.labcomercializador}</td>
               </tr>
             );
           })}
@@ -307,7 +306,7 @@ function resetFiltros() {
   border-collapse: collapse;
   font-size: 14px;
   background: #ffffff;
-  table-layout: fixed;
+  table-layout: auto;
   
 }
 
@@ -363,11 +362,13 @@ function resetFiltros() {
 }
 
 .nombre-wrapper {
-  display: block;          /* ← NO inline-flex */
+           
   max-width: 100%;
-  white-space: nowrap;
+ display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.3;
 }
 
 .nombre-marca {
@@ -567,6 +568,58 @@ function resetFiltros() {
 /* Activo (click) */
 .filtro-reset-btn:active {
   background: #fca5a5;
+}
+/* ===== ANCHOS Y ALINEACIÓN DE COLUMNAS ===== */
+
+/* Nombre: protagonista */
+.col-nombre {
+  width: 32%;
+  text-align: left;
+}
+
+/* Principio activo */
+.col-pa {
+  width: 22%;
+  text-align: left;
+}
+
+/* Dispositivo */
+.col-dispositivo {
+  width: 10%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Indicación */
+.col-indicacion {
+  width: 12%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Tipo tratamiento */
+.col-tipo {
+  width: 10%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Laboratorio */
+.col-lab {
+  width: 14%;
+  text-align: left;
+}
+
+.tabla-intranet thead th.col-nombre,
+.tabla-intranet thead th.col-pa,
+.tabla-intranet thead th.col-lab {
+  text-align: left;
+}
+
+.tabla-intranet thead th.col-dispositivo,
+.tabla-intranet thead th.col-indicacion,
+.tabla-intranet thead th.col-tipo {
+  text-align: center;
 }
 
 `}</style>

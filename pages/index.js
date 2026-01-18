@@ -72,21 +72,42 @@ export default function Home() {
     [data],
   );
 
+//Filtrar y ordenar los datos de la tabla origen
+
   const filtrados = useMemo(() => {
-    return data.filter((d) => {
+  return data
+    .filter(d => {
       if (f.tipo && d.TIPO_TRATAMIENTO !== f.tipo) return false;
-      if (f.asma && d["ASMA (FT 4.1)"] !== "Sí") return false;
-      if (f.epoc && d["EPOC (FT 4.1)"] !== "Sí") return false;
+      if (f.asma && d['ASMA (FT 4.1)'] !== 'Sí') return false;
+      if (f.epoc && d['EPOC (FT 4.1)'] !== 'Sí') return false;
       if (f.dispositivo && d.DISPOSITIVO !== f.dispositivo) return false;
 
       if (f.clases.length) {
         for (const c of f.clases) {
-          if (d[c] !== "Sí") return false;
+          if (d[c] !== 'Sí') return false;
         }
       }
       return true;
+    })
+    .sort((a, b) => {
+      // 1º ordenar por nombre
+      const n1 = (a.nombre || '').localeCompare(
+        b.nombre || '',
+        'es',
+        { sensitivity: 'base' }
+      );
+      if (n1 !== 0) return n1;
+
+      // 2º desempate por laboratorio
+      return (a.labcomercializador || '').localeCompare(
+        b.labcomercializador || '',
+        'es',
+        { sensitivity: 'base' }
+      );
     });
-  }, [data, f]);
+}, [data, f]);
+
+
 
   const toggleClase = (c) =>
     setF((s) => ({

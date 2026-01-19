@@ -1,0 +1,84 @@
+/* ===============================
+   ESCALAS CLÍNICAS – ESTILO INTRANET
+================================ */
+
+.escala-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.criterios {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+/* Botón criterio */
+.criterio-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 2px solid #d1d5db;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+
+.criterio-btn:hover {
+  background: #f9fafb;
+}
+
+/* Activo */
+.criterio-btn.activo {
+  background: #eef5f7;
+  border-color: #5a7f8a;
+}
+
+/* Criterio negativo */
+.criterio-btn.negativo.activo {
+  background: #fee2e2;
+  border-color: #ef4444;
+}
+
+/* Puntos */
+.criterio-btn .puntos {
+  font-weight: 600;
+  margin-left: 12px;
+}
+
+/* ===============================
+   RESULTADO
+================================ */
+
+.resultado {
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.resultado.verde {
+  background: #e6f4ea;
+  color: #137333;
+}
+
+.resultado.amarillo {
+  background: #fff4e5;
+  color: #92400e;
+}
+
+.resultado.rojo {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.puntos-total {
+  font-size: 18px;
+}

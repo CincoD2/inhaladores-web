@@ -53,6 +53,7 @@ export default function Home() {
   const [page, setPage] = useState(1);
 
   // Filtros
+  const [search, setSearch] = useState('');
   const [fTipoTratamiento, setFTipoTratamiento] = useState('');
   const [fTipoInhalador, setFTipoInhalador] = useState('');
   const [fAsma, setFAsma] = useState(false);
@@ -66,6 +67,7 @@ export default function Home() {
   });
 
   function resetFiltros() {
+    setSearch('');
     setFTipoTratamiento('');
     setFTipoInhalador('');
     setFAsma(false);
@@ -101,7 +103,19 @@ export default function Home() {
     return [...data]
       .filter(d => {
         if (!d) return false;
+        
+        /* ===== BUSCADOR TEXTO LIBRE ===== */
+  if (search) {
+    const texto = search.toLowerCase();
 
+    const hayCoincidencia = Object.values(d)
+      .join(' ')
+      .toLowerCase()
+      .includes(texto);
+
+    if (!hayCoincidencia) return false;
+  }
+  
         if (fTipoTratamiento && d['TIPO_TRATAMIENTO'] !== fTipoTratamiento) {
           return false;
         }
@@ -139,12 +153,12 @@ export default function Home() {
           { sensitivity: 'base' }
         );
       });
-  }, [data, fTipoTratamiento, fTipoInhalador, fAsma, fEpoc, fClases]);
+  }, [data, search, fTipoTratamiento, fTipoInhalador, fAsma, fEpoc, fClases]);
 
   /* ===== RESET PÁGINA AL CAMBIAR FILTROS ===== */
   useEffect(() => {
     setPage(1);
-  }, [fTipoTratamiento, fTipoInhalador, fAsma, fEpoc, fClases]);
+  }, [search, fTipoTratamiento, fTipoInhalador, fAsma, fEpoc, fClases]);
 
 
 
@@ -288,11 +302,16 @@ function getPaginationPages(current, total) {
         </div>
       </div>
 
-      <p>
-        Mostrando {paginatedData.length} de {filteredAndSortedData.length} resultados —
-        Página {page} de {totalPages}
-      </p>
-      
+  <div className="buscador-wrapper">
+  <span className="buscador-icon" aria-hidden />
+  <input
+    type="text"
+    placeholder="Busca palabras clave..."
+    value={search}
+    onChange={e => setSearch(e.target.value)}
+    className="buscador-input"
+  />
+</div>      
       
 {/* CABECERA TABLA + PAGINACIÓN */}
 <div className="tabla-header">

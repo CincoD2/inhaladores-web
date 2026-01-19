@@ -7,6 +7,9 @@
 .tabla-wrapper {
   max-width: 100%;
   overflow-x: hidden;
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* TABLA BASE */
@@ -25,6 +28,13 @@
   font-weight: 600;
   padding: 6px 6px;
   border-bottom: 2px solid #3f6973;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.tabla-intranet thead th.sortable:hover {
+  background-color: #3f6973;
 }
 
 /* CELDAS */

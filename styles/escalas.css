@@ -2,9 +2,16 @@
    ESCALAS CLÍNICAS – ESTILO INTRANET
 ================================ */
 
+body {
+  overflow-x: hidden;
+}
+
 .escala-wrapper {
   max-width: 900px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .escala-footer {
@@ -107,6 +114,10 @@
   align-items: center;
   font-size: 16px;
   font-weight: 600;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .resultado.verde {
@@ -148,6 +159,14 @@
   font-size: 13px;
   line-height: 1.4;
   white-space: pre-wrap;
+}
+
+.informe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 /* Texto informativo arriba a la izquierda */
@@ -236,6 +255,18 @@
   .inputs-grid {
     grid-template-columns: 1fr;
   }
+    .resultado {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .copy-btn-dark {
+    position: static;
+    align-self: flex-end;
+  }
+    .reset-btn {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 /* ===============================
@@ -266,6 +297,8 @@
   font-size: 14px;
   border-radius: 6px;
   border: 1px solid #d1d5db;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .input-group input:focus {

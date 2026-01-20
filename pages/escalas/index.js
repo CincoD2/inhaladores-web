@@ -7,6 +7,9 @@ export default function Escalas() {
         <li>
           <a href="/escalas/wells-tvp">Wells – TVP</a>
         </li>
+        <li>
+          <a href="/escalas/hiponatremia">Hiponatremia</a>
+        </li>
       </ul>
     </main>
   );

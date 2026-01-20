@@ -154,39 +154,55 @@ const interpretacionSodio = useMemo(() => {
       {/* FORMULARIO */}
      <div className="inputs-grid">
   <div className="input-group">
-    <label>Sodio plasmático (mEq/L)</label>
-    <input
-      type="number"
-      value={na}
-      onChange={e => setNa(e.target.value)}
-    />
+    <label>Sodio plasmático</label>
+    <div className="input-con-unidad">
+      <input
+        type="number"
+        min="0"
+        value={na}
+        onChange={e => setNa(e.target.value)}
+      />
+      <span className="input-unidad">mEq/L</span>
+    </div>
   </div>
 
   <div className="input-group">
-    <label>Peso (kg)</label>
-    <input
-      type="number"
-      value={peso}
-      onChange={e => setPeso(e.target.value)}
-    />
+    <label>Peso</label>
+    <div className="input-con-unidad">
+      <input
+        type="number"
+        min="0"
+        value={peso}
+        onChange={e => setPeso(e.target.value)}
+      />
+      <span className="input-unidad">kg</span>
+    </div>
   </div>
 
   <div className="input-group">
-    <label>Glucosa (mg/dL)</label>
-    <input
-      type="number"
-      value={glucosa}
-      onChange={e => setGlucosa(e.target.value)}
-    />
+    <label>Glucosa</label>
+    <div className="input-con-unidad">
+      <input
+        type="number"
+        min="0"
+        value={glucosa}
+        onChange={e => setGlucosa(e.target.value)}
+      />
+      <span className="input-unidad">mg/dL</span>
+    </div>
   </div>
 
   <div className="input-group">
-    <label>Urea (mg/dL)</label>
-    <input
-      type="number"
-      value={urea}
-      onChange={e => setUrea(e.target.value)}
-    />
+    <label>Urea</label>
+    <div className="input-con-unidad">
+      <input
+        type="number"
+        min="0"
+        value={urea}
+        onChange={e => setUrea(e.target.value)}
+      />
+      <span className="input-unidad">mg/dL</span>
+    </div>
   </div>
 </div>
       <button className="reset-btn" onClick={reset}>

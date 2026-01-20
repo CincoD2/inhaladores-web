@@ -155,7 +155,7 @@ export default function Hiponatremia() {
 
     return `${prefijoAvisos}Na actual: ${parsed.naActual} mEq/L (${tipoNatremia}) ${sintomasTexto} síntomas graves.
 
-Cálculo del déficit de Na:
+Cálculo del NaCl a infundir:
 - Sodio deseado: ${parsed.naDeseado} mEq/L
 - Constante: ${factor} (${sexo})
 - Peso: ${parsed.peso} Kg 

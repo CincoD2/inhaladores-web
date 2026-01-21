@@ -103,7 +103,9 @@ Riesgo de mortalidad global a los 30 días: ${mortalidad}`;
           ))}
         </div>
       </div>
-      <div></div>
+      <div>
+        <br></br>
+      </div>
 
       <div className="criterios">
         {CRITERIOS.map((c) => (

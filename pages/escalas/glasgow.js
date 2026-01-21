@@ -1,41 +1,41 @@
-import { useMemo, useState } from 'react';
-import InformeCopiable from '@/components/InformeCopiable';
+import { useMemo, useState } from "react";
+import InformeCopiable from "@/components/InformeCopiable";
 
 const OCULAR = [
-  { id: 'o4', label: 'Espontánea', puntos: 4 },
-  { id: 'o3', label: 'Apertura a la orden', puntos: 3 },
-  { id: 'o2', label: 'Apertura al dolor', puntos: 2 },
-  { id: 'o1', label: 'Sin respuesta', puntos: 1 }
+  { id: "o4", label: "Espontánea", puntos: 4 },
+  { id: "o3", label: "Apertura a la orden", puntos: 3 },
+  { id: "o2", label: "Apertura al dolor", puntos: 2 },
+  { id: "o1", label: "Sin respuesta", puntos: 1 },
 ];
 
 const VERBAL = [
-  { id: 'v5', label: 'Orientada', puntos: 5 },
-  { id: 'v4', label: 'Confusa', puntos: 4 },
-  { id: 'v3', label: 'Inapropiada', puntos: 3 },
-  { id: 'v2', label: 'Incomprensible', puntos: 2 },
-  { id: 'v1', label: 'Sin respuesta', puntos: 1 }
+  { id: "v5", label: "Orientada", puntos: 5 },
+  { id: "v4", label: "Confusa", puntos: 4 },
+  { id: "v3", label: "Inapropiada", puntos: 3 },
+  { id: "v2", label: "Incomprensible", puntos: 2 },
+  { id: "v1", label: "Sin respuesta", puntos: 1 },
 ];
 
 const MOTORA = [
-  { id: 'm6', label: 'Obedece órdenes', puntos: 6 },
-  { id: 'm5', label: 'Localiza estímulo doloroso', puntos: 5 },
-  { id: 'm4', label: 'Retirada al dolor', puntos: 4 },
-  { id: 'm3', label: 'Flexión (decorticación)', puntos: 3 },
-  { id: 'm2', label: 'Extensión (descerebración)', puntos: 2 },
-  { id: 'm1', label: 'Sin respuesta', puntos: 1 }
+  { id: "m6", label: "Obedece órdenes", puntos: 6 },
+  { id: "m5", label: "Localiza estímulo doloroso", puntos: 5 },
+  { id: "m4", label: "Retirada al dolor", puntos: 4 },
+  { id: "m3", label: "Flexión (decorticación)", puntos: 3 },
+  { id: "m2", label: "Extensión (descerebración)", puntos: 2 },
+  { id: "m1", label: "Sin respuesta", puntos: 1 },
 ];
 
 function getInterpretacion(total) {
   if (total === 15) {
-    return { texto: 'Sin lesión cerebral', color: 'verde' };
+    return { texto: "Sin lesión cerebral", color: "verde" };
   }
   if (total < 8) {
-    return { texto: 'Lesión cerebral severa. Considerar IOT.', color: 'rojo' };
+    return { texto: "Lesión cerebral severa. Considerar IOT.", color: "rojo" };
   }
   if (total < 13) {
-    return { texto: 'Lesión cerebral moderada', color: 'naranja' };
+    return { texto: "Lesión cerebral moderada", color: "naranja" };
   }
-  return { texto: 'Lesión cerebral leve', color: 'amarillo' };
+  return { texto: "Lesión cerebral leve", color: "amarillo" };
 }
 
 export default function Glasgow() {
@@ -45,7 +45,7 @@ export default function Glasgow() {
 
   const total = useMemo(
     () => (ocular?.puntos || 0) + (verbal?.puntos || 0) + (motora?.puntos || 0),
-    [ocular, verbal, motora]
+    [ocular, verbal, motora],
   );
 
   const interpretacion = useMemo(() => getInterpretacion(total), [total]);
@@ -75,7 +75,7 @@ ${interpretacion.texto}`;
             <button
               key={opt.id}
               type="button"
-              className={`selector-btn ${ocular.id === opt.id ? 'activo' : ''}`}
+              className={`selector-btn ${ocular.id === opt.id ? "activo" : ""}`}
               onClick={() => setOcular(opt)}
             >
               {opt.label}
@@ -85,13 +85,14 @@ ${interpretacion.texto}`;
       </div>
 
       <div className="input-group">
+        <br></br>
         <label>Respuesta verbal ({verbal.puntos})</label>
         <div className="selector-botones">
           {VERBAL.map((opt) => (
             <button
               key={opt.id}
               type="button"
-              className={`selector-btn ${verbal.id === opt.id ? 'activo' : ''}`}
+              className={`selector-btn ${verbal.id === opt.id ? "activo" : ""}`}
               onClick={() => setVerbal(opt)}
             >
               {opt.label}
@@ -101,13 +102,14 @@ ${interpretacion.texto}`;
       </div>
 
       <div className="input-group">
+        <br></br>
         <label>Respuesta motora ({motora.puntos})</label>
         <div className="selector-botones">
           {MOTORA.map((opt) => (
             <button
               key={opt.id}
               type="button"
-              className={`selector-btn ${motora.id === opt.id ? 'activo' : ''}`}
+              className={`selector-btn ${motora.id === opt.id ? "activo" : ""}`}
               onClick={() => setMotora(opt)}
             >
               {opt.label}

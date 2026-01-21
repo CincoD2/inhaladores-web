@@ -5,52 +5,52 @@ const CRITERIOS = [
   {
     id: 'confusion',
     label: 'Confusión (desorientación en los 3 ejes)',
-    texto: 'Confusión. Desorientación en los 3 ejes.'
+    texto: 'Confusión. Desorientación en los 3 ejes.',
   },
   {
     id: 'urea',
     label: 'Urea > 42 mg/dl (7 mmol/l o BUN > 19 mg/dl)',
-    texto: 'Urea >42 mg/dl (BUN >19 mg/dl)'
+    texto: 'Urea >42 mg/dl (BUN >19 mg/dl)',
   },
   {
     id: 'fr',
     label: 'Frecuencia respiratoria ≥ 30 rpm',
-    texto: 'Frecuencia respiratoria ≥30 rpm'
+    texto: 'Frecuencia respiratoria ≥30 rpm',
   },
   {
     id: 'ta',
     label: 'Tensión arterial: TAS < 90 mmHg o TAD < 60 mmHg',
-    texto: 'TA: TAS <90 mmHg o TAD <60 mmHg'
+    texto: 'TA: TAS <90 mmHg o TAD <60 mmHg',
   },
   {
     id: 'edad',
     label: 'Edad ≥ 65 años',
-    texto: 'Edad ≥65 años'
-  }
+    texto: 'Edad ≥65 años',
+  },
 ];
 
 function getInterpretacion(puntuacion) {
   if (puntuacion <= 1) {
     return {
       texto: 'BAJO RIESGO: Puede hacerse tratamiento ambulatorio',
-      color: 'verde'
+      color: 'verde',
     };
   }
   if (puntuacion === 2) {
     return {
       texto: 'RIESGO MEDIO: Valorar ingreso u observación en urgencias',
-      color: 'amarillo'
+      color: 'amarillo',
     };
   }
   if (puntuacion === 3) {
     return {
       texto: 'RIESGO ELEVADO: Requiere ingreso hospitalario',
-      color: 'rojo'
+      color: 'rojo',
     };
   }
   return {
     texto: 'RIESGO ELEVADO: Requiere ingreso hospitalario. Valorar UCI',
-    color: 'rojo'
+    color: 'rojo',
   };
 }
 
@@ -67,8 +67,7 @@ export default function Curb65() {
   const textoInforme = useMemo(() => {
     if (!haySeleccion) return null;
 
-    const criteriosSeleccionados = CRITERIOS
-      .filter((c) => seleccion[c.id])
+    const criteriosSeleccionados = CRITERIOS.filter((c) => seleccion[c.id])
       .map((c) => `- ${c.texto}`)
       .join('\n');
 

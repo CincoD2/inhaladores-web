@@ -1,0 +1,486 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        background-color: #f4e2e2;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #980000;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .tabcontent {
+        animation: fadeEffect 1s;
+        /* Fading effect takes 1 second */
+    }
+
+    /* Go from zero to full opacity */
+    @keyframes fadeEffect {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    #Mytable {
+        border-collapse: collapse;
+        /* Collapse borders */
+        width: 100%;
+        /* Full-width */
+        border: 0px solid #ddd;
+        /* Add a grey border */
+        font-size: 14px;
+        /* Increase font-size */
+        font-family: sans-serif;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    #myTable th,
+    #myTable td {
+        text-align: sub;
+        /* Left-align text */
+        padding: 2px;
+        ;
+        5px;
+        /* Add padding */
+        /* width: 15%; */
+        vertical-align: middle;
+        width: 16.6%;
+    }
+
+
+
+    #myTable td a {
+        width: 70%;
+        vertical-align: middle;
+        min-width: 10%;
+        height: 20px;
+        color: #d90429;
+        padding: 5px 5px;
+        padding-top: 7px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-block;
+        outline: none;
+        border-radius: 20px;
+        border: 1px solid #d90429;
+        background: #fff;
+        text-decoration: none;
+    }
+
+    #disabled {
+
+        text-align: sub;
+        /* Left-align text */
+        padding: 2px;
+        ;
+        5px;
+        /* Add padding */
+        /* width: 15%; */
+        vertical-align: middle;
+        width: 16.6%;
+        background: #f1f1f1;
+        width: 70%;
+        vertical-align: middle;
+        min-width: 10%;
+        height: 20px;
+        color: #969696;
+        padding: 5px 5px;
+        padding-top: 7px;
+        font-weight: bold;
+        cursor: not-allowed;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-block;
+        outline: none;
+        border-radius: 20px;
+        border: 1px solid #f1f1f1;
+
+        text-decoration: none;
+
+    }
+
+    #link {
+        text-align: sub;
+        /* Left-align text */
+
+        /* Add padding */
+        /* width: 15%; */
+        vertical-align: middle;
+
+        width: 20%;
+        vertical-align: middle;
+        min-width: 77%;
+        height: 20px;
+        color: #111;
+        padding: 8px 5px;
+        padding-top: 7px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-block;
+        outline: none;
+        border-radius: 20px;
+        border: 1px solid #111111;
+        background: #fff;
+        text-decoration: none;
+
+    }
+
+    #link:hover {
+        background: #111;
+        color: #fff
+    }
+
+    #myTable td a:hover {
+        background: #d90429;
+        color: #fff
+    }
+
+    #myTable tr {
+        /* Add a bottom border to all table rows */
+        border-bottom: 0px solid #ddd;
+    }
+
+</style>
+
+<script>
+    function WebLoad() {
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    }
+
+
+    function openCity(evt, cityName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+</script>
+
+
+<body onload="WebLoad()">
+
+    <!-- Tab links -->
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, '2022')">2022</button>
+        <button class="tablinks" onclick="openCity(event, '2021')" id="defaultOpen">2021</button>
+        <button class="tablinks" onclick="openCity(event, '2020')">2020</button>
+        <button class="tablinks" onclick="openCity(event, '2019')">2019</button>
+        <button class="tablinks" onclick="openCity(event, '2018')">2018</button>
+        <button class="tablinks" onclick="openCity(event, '2017')">2017</button>
+        <button class="tablinks" onclick="openCity(event, '2016')">2016</button>
+        <button class="tablinks" onclick="openCity(event, '2015')">2015</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="2022" class="tabcontent">
+        <h3>2022</h3>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/2022.pdf">Rueda</a></center>
+        </p>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202112%20RUEDA%20NAVIDAD.pdf">Navidades 2021-2025</a></center>
+        </p>
+         <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaSocial/MEDV/Otros%20documentos/calendario%202022.pdf">Calend. Laboral</a></center>
+        </p>
+        <table id="Mytable">
+            <tr>
+                <td><div id="disabled">ENE</div></td>
+                <td><div id="disabled">FEB</div></td>
+                <td><div id="disabled">MAR</div></td>
+                <td><div id="disabled">ABR</div></td>
+            </tr>
+            <tr>
+                <td><div id="disabled">MAY</div></td>
+                <td><div id="disabled">JUN</div></td>
+                <td><div id="disabled">JUL</div></td>
+                <td><div id="disabled">AGO</div></td>
+            </tr>
+            <tr>
+                <td><div id="disabled">SEP</div></td>
+                <td><div id="disabled">OCT</div></td>
+                <td><div id="disabled">NOV</div></td>
+                <td><div id="disabled">DIC</div></td>
+            </tr>
+        </table>
+    </div>
+    
+    <div id="2021" class="tabcontent">
+        <h3>2021</h3>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/2021%20Turno%20rodado.pdf">Rueda</a></center>
+        </p>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202112%20RUEDA%20NAVIDAD.pdf">Navidades 2021-2025</a></center>
+        </p>
+        <table id="Mytable">
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202101.pdf">ENE</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202102.pdf">FEB</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202103.pdf">MAR</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202104.pdf">ABR</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202105.pdf">MAY</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202106.pdf">JUN</a></td>
+
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202107.pdf">JUL</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202108.pdf">AGO</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202109.pdf">SEP</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202110.pdf">OCT</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202111.pdf">NOV</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202112.pdf">DIC</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="2020" class="tabcontent">
+        <h3>2020</h3>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/2020.pdf">Rueda</a></center>
+        </p>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/20191206%20Normas%20Horarios%202020.pdf">Normas Horarios</a></center>
+        </p>
+        <table id="Mytable">
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202001.pdf">ENE</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202002.pdf">FEB</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202003.pdf">MAR</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202004.pdf">ABR</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202005.pdf">MAY</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202006.pdf">JUN</a></td>
+
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202007.pdf">JUL</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202008.pdf">AGO</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202009.pdf">SEP</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202010.pdf">OCT</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202011.pdf">NOV</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/202012.pdf">DIC</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="2019" class="tabcontent">
+        <h3>2019</h3>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/20181217%20Turno%20Rodado%20Urgencias%20VPS%202019%20Oficial.pdf">Rueda</a></center>
+        </p>
+        <table id="Mytable">
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201901.pdf">ENE</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201902.pdf">FEB</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201903.pdf">MAR</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201904.pdf">ABR</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201905.pdf">MAY</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201906.pdf">JUN</a></td>
+
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201907.pdf">JUL</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201908.pdf">AGO</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201909.pdf">SEP</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201910.pdf">OCT</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201911.pdf">NOV</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201912.pdf">DIC</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="2018" class="tabcontent">
+        <h3>2018</h3>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/2018%20Turno%20Rodado.pdf">Rueda</a></center>
+        </p>
+        <table id="Mytable">
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201801.pdf">ENE</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201802.pdf">FEB</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201803%20(v3).pdf">MAR</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201804.pdf">ABR</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201805.pdf">MAY</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201806.pdf">JUN</a></td>
+
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201807.pdf">JUL</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201808.pdf">AGO</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201809.pdf">SEP</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201810.pdf">OCT</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201811.pdf">NOV</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201812b.pdf">DIC</a></td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div id="2017" class="tabcontent">
+        <h3>2017</h3>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/20161221%20Turno%20Rodado%202017.pdf">Rueda</a></center>
+        </p>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/Navidades%202016-2021.pdf">Navidades 2016-2021</a></center>
+        </p>
+        <table id="Mytable">
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201701.pdf">ENE</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201702.pdf">FEB</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201703.pdf">MAR</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201704.pdf">ABR</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201705.pdf">MAY</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201706.pdf">JUN</a></td>
+
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201707.pdf">JUL</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201708.pdf">AGO</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201709.pdf">SEP</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201710.pdf">OCT</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201711.pdf">NOV</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201712.pdf">DIC</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="2016" class="tabcontent">
+        <h3>2016</h3>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/20160210%20Rueda%202016.pdf">Rueda (feb 2016)</a></center>
+        </p>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/2016%20Turno%20Rodado.pdf">Rueda (dic 2015)</a></center>
+        </p>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/20160216%20Distribuci%C3%B3n%20Trabajo.pdf">Distribución de turnos</a></center>
+        </p>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/20160219%20Normas%20Horario%20Sostenible.pdf">Horario Sostenible</a></center>
+        </p>
+        <table id="Mytable">
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201601.pdf">ENE</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201602.pdf">FEB</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201603.pdf">MAR</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201604.pdf">ABR</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201605.pdf">MAY</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201606.pdf">JUN</a></td>
+
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201607.pdf">JUL</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201608.pdf">AGO</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201609.pdf">SEP</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201610.pdf">OCT</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201611.pdf">NOV</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201612.pdf">DIC</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="2015" class="tabcontent">
+        <h3>2015</h3>
+        <p>
+            <center><a id="link" href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/Rueda2015.pdf">Rueda</a></center>
+        </p>
+        <table id="Mytable">
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201501.pdf">ENE</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201502.pdf">FEB</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201503.pdf">MAR</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201504.pdf">ABR</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201505.pdf">MAY</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201506.pdf">JUN</a></td>
+
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201507.pdf">JUL</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201508.pdf">AGO</a></td>
+            </tr>
+            <tr>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201509.pdf">SEP</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201510.pdf">OCT</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201511.pdf">NOV</a></td>
+                <td><a href="https://coresocial.riberasaludapp.com/Organizacion/AreaMedicaQuirurgica/URGV/TURNOS/201512.pdf">DIC</a></td>
+            </tr>
+        </table>
+    </div>
+
+</body>

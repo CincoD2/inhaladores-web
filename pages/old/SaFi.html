@@ -1,0 +1,151 @@
+<script>
+
+function calcule1(form){
+ var R=0;
+ SO=form.SpO2.value;FO=form.FiO2.value;
+
+if(form.FiO2.value<21 ||form.FiO2.value>100||isNaN(form.FiO2.value))
+{ dRX.innerHTML="Revisa valores de FiO<sub>2</sub> (entre 21 y 100%) !!"; form.FiO2.value="";}
+ if(form.SpO2.value<85 ||form.SpO2.value>99||isNaN(form.SpO2.value))
+{ dRX.innerHTML="Pulsioximetría: solo valores comprendidos entre 85 y 99% !!"; form.SpO2.value="";}
+ 
+ if(SO>=85 && SO<=99&&FO>=21&&FO<=100){
+SpO2=form.SpO2.value/100;;
+FiO2=form.FiO2.value/100;
+
+R1=(form.SpO2.value/form.FiO2.value)*100;
+ R2=Math.round(R1);
+
+SDRA1="<strong>SpFi=</strong> "+R2+" mmHg<br>";
+/*if(R>1){ form.pO2.value="pO2: "+form.pO2.value+" mmHg"; form.FiO2.value="FiO2: "+form.FiO2.value+" %";dRX.innerHTML="";}
+*/
+
+SF=R1;
+ 
+/*NUWVA EQUACION DE
+https://www.shmabstracts.com/abstract/imputing-the-ratio-of-partial-pressure-of-arterial-oxygen-to-fraction-of-inspired-oxygen-the-optimal-strategy-in-non-intubated-floor-patients/
+
+Pao2= [23400/((1/SpO2)-0.99)]sup(1/3)
+Spo2= [1/(23400/((PaO2)elevado a 3 +0.99)] en script=1/(23400/Math.pow(pO2, 3)+0.99);
+*/
+
+
+/*ECUACION 1 S M Gadrey et al mas exacta en pacientes no intubados con satO2 >96%*/ 
+
+A=Math.pow(28.6025, 3);
+B=1/SpO2;
+C=B-0.99;
+D=A/C ;
+PAO2=Math.pow(D, 1/3);
+E=Math.round(PAO2/FiO2);
+
+/*ECUACION 2 Severinghause-Ellis) mas exacta con sat<=96%*/
+B1=Math.pow(SpO2, -1);
+C1=B1-1;
+D1=Math.pow(C1, -1);
+RA=(11700)*D1;
+
+E1=Math.pow(50, 3)+Math.pow(RA, 2);
+RB=Math.pow(E1, 0.5);
+RBA=RB+RA;
+RBA2=RB-RA;
+F1=Math.pow(RBA, 1/3);
+F2=Math.pow(RBA2, 1/3);
+F3=F1-F2;
+F4=Math.round(F3/FiO2);
+
+  dRB1.innerHTML="Equivalencia PaFi &rarr; "+F4+" mmHg<br><small>(ecuación de Severinhause-Ellis)</small> ";
+
+  dRB.innerHTML=SDRA1;
+ 
+R4=F4;
+  if(R4>0&&R4<=100) { dRR4.innerHTML= "<strong>SDRA Grave</strong><br><small>Mortalidad 45%";}
+if(R4>100&&R4<=200) { dRR4.innerHTML= "<strong>SDRA Moderado</strong><br><small>Mortalidad 32%";;}
+if(R4>200&&R4<=300) { dRR4.innerHTML= "<strong>SDRA leve</strong><br><small>Mortalidad 27%";;}
+if(R4>300) { dRR4.innerHTML= "Adecuada PaFi";}
+
+
+S4=F4 /*/  SOFA POR PF calculada por Ellis et al*/
+ SOFA="<strong> Puntuación para cálculo SOFA: </strong>"
+if(S4<100) { drS4.innerHTML= SOFA+"4";}
+if(S4>=100) { drS4.innerHTML= SOFA+"3";}
+if(S4>=200) { drS4.innerHTML= SOFA+"2";}
+if(S4>=300) { drS4.innerHTML= SOFA+"1";}
+if(S4>=400) { drS4.innerHTML= SOFA+"0";}
+
+ /*/  SOFA POR PF real*/
+
+
+  dRX.innerHTML="";
+form.FiO2.value=FO;form.SpO2.value=SO;
+
+}
+
+}
+function Limpiar(form) {
+ form.FiO2.value="";
+  form.SpO2.value="";
+dRB.innerHTML="<small>SpFi</small>";
+dRB1.innerHTML="<small>PaFi</small>";
+dRX.innerHTML="";
+ drS4.innerHTML="<small>SOFA</small>";
+ dRR4.innerHTML= "<small>SDRA</small>";
+
+}
+
+
+function oxigeno(form) {
+form.FiO2.value=form.o2.value
+}
+
+</script>
+
+ <h1><center>SpFi y equivalencia en PaFi</h1>
+    </div>
+
+
+    <div data-role="content" data-theme="d">
+        <form>
+
+            <div align="center"><small>Cálculo de PaO<sub>2</sub>/FiO<sub>2</sub> según SpO<sub>2</sub> (pulsioximetría) y su correlación con grado de SDRA y SOFA.</small>
+
+
+                <div data-role="fieldcontain" style="max-width:200px" >
+
+                    
+                   <br>SpO2 (%)<input type="tel" name="SpO2" placeholder="SpO2 (%)" onkeyup="cambia(this);" >
+                    <br>FiO<sub>2</sub> (%)<input type="tel" name="FiO2"  placeholder="FiO2 (%)" />
+                    
+                    </div>
+                    
+                    <font color="brown"><strong><div id="dRX"></div></strong></font>
+                    
+                <div data-role="controlgroup" data-type="horizontal"><br>
+                    <input  type="button" name="Calculate"  data-theme="b" value="Calcular" onClick="calcule1(form)" >
+
+                    <input type="button"  data-theme="d" value="Borrar" onclick="Limpiar(this.form)" ></div>
+
+               
+                             
+<div class="ui-body ui-body-d" id="dRB"  style="max-width:300px"><br><small>SpFi</small></div>
+<div class="ui-body ui-body-d" id="dRR4" style="max-width:300px" ><small>SDRA</small></div>
+<div class="ui-body ui-body-d" id="drS4" style="max-width:300px" ><small>SOFA</small></div>
+<div class="ui-body ui-body-d" id="dRB1"  style="max-width:300px"><small>PaFi</small></div> 
+</div>
+
+       <br><br><center><label for="cars">Oxígeno suplementario:</label><br>
+  <select onchange="oxigeno(this.form);" id="o2" name="o2" size="10">
+    <option value="21">Sin oxígeno suplementario</option>
+    <option value="24">Gafas nasales a 1 lpm</option>
+    <option value="28">Gafas nasales a 2 lpm</option>
+    <option value="32">Gafas nasales a 3 lpm</option>
+    <option value="36">Gafas nasales a 4 lpm</option>
+    <option value="40">Gafas nasales a 5 lpm</option>
+    <option value="30">VMK al 30%</option>
+    <option value="35">VMK al 35%</option>
+    <option value="40">VMK al 40%</option>
+    <option value="50">VMK reservorio</option>
+  </select><br><br>
+            
+    </form>
+

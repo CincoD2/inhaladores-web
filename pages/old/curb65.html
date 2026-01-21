@@ -1,0 +1,171 @@
+<table class="checklist">
+
+  <tr><! Fila 0 Título >
+
+    <td colspan="4"><span id="titulo"></span></td>
+  
+  </tr>
+
+
+<tr><! Fila 1 más de 75años >
+
+  <td><input type="checkbox" id="cbox0" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Confusión (Desorientación en los 3 ejes)</span></td>
+
+</tr>
+
+<tr><! Fila 2  >
+
+  <td><input type="checkbox" id="cbox1" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Urea &gt; 42 mg/dl (7 mmol/l o BUN &gt; de 19 mg/dl)</span></td>
+
+</tr>
+
+<tr><! Fila 3  >
+
+  <td><input type="checkbox" id="cbox2" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Frecuencia respiratoria &ge; 30 rpm</span></td>
+
+</tr>
+
+
+<tr><! Fila 4  >
+
+  <td><input type="checkbox" id="cbox3" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Tensión arteriar: TAS&lt;90 mmHg o TAD&lt;60 mmHg</span></td>
+
+</tr>
+
+<tr><! Fila 5 más de 75años >
+
+  <td><input type="checkbox" id="cbox4" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Edad &ge;65 años</span></td>
+
+</tr>
+
+</table>
+
+<!--Tablacalcular-->
+
+<table class="tablacalcular">
+  <tr> 
+    <td colspan="4"><br><button id="calcular" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Calcular</button><br></td>
+    
+  </tr>
+</table>
+
+
+ <! DIV RESULTADO **************************************************************************>
+
+<div class="divresultado">
+
+<form action="">
+<br>
+<textarea cols=100 rows=15 id="resultadofinal"></textarea>
+
+</form>
+
+</div>
+<script>
+calcular.onclick = function(e){
+
+  var contador=0;
+  var texto_1='';
+  var resultadofinal_txt= '';
+  resultadofinal.value=" "
+  
+
+  contador=0; //resetamos contador y texto
+  texto_1=' ';
+
+  // alert("el valor del contador es de ")
+
+  if (cbox0.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox0').value);
+    
+    resultadofinal.value="- Confusión. Desorientación en los 3 ejes\n";
+  }
+
+  if (cbox1.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox1').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Urea >42 mg/dl (BUN >19 mg/dl)\n";
+  }
+
+
+  if (cbox2.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox2').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Frecuencia respiratoria ≥30 rpm\n";
+  }
+  if (cbox3.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox3').value);
+    
+    resultadofinal.value=resultadofinal.value +"- TA: TAS<90 mmHg o TAD<60 mmHg \n";
+  }
+
+  if (cbox4.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox4').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Edad ≥65 años\n";
+  }
+
+
+
+
+resultadofinal.value= resultadofinal.value + "____________________________________________\n";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + " * Resultado Escala CURB65 =  " + contador;
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + "_____________________________________________\n";
+
+if (contador==1){
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + " BAJO RIESGO: Puede hacerse tratamiento ambulatorio\n";
+    //resultadofinal.value= resultadofinal.value + " El riesgo anual de ACV sin tratamiento con ACO se estima en 1,3%\n";
+
+}
+
+  if (contador==2){
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + " RIESGO MEDIO. Valorar ingreso u observación en urgencias.\n";
+    //resultadofinal.value= resultadofinal.value + " El riesgo anual de ACV sin tratamiento con ACO se estima en 2,2%\n";
+
+}
+if (contador==3){
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + " RIESGO ELEVADO: Requiere Ingreso hospitalario \n";
+    //resultadofinal.value= resultadofinal.value + " El riesgo anual de ACV sin tratamiento con ACO se estima en 3,2%\n";
+
+}
+if (contador==4){
+  resultadofinal.value= resultadofinal.value +"\n";
+
+  resultadofinal.value= resultadofinal.value + " RIESGO ELEVADO: Requiere Ingreso hospitalario. Valorar UCI \n";
+  //resultadofinal.value= resultadofinal.value + " El riesgo anual de ACV sin tratamiento con ACO se estima en 3,2%\n";
+
+}
+
+if (contador==5){
+  resultadofinal.value= resultadofinal.value +"\n";
+
+  resultadofinal.value= resultadofinal.value + " RIESGO ELEVADO: Requiere Ingreso hospitalario. Valorar UCI \n";
+  //resultadofinal.value= resultadofinal.value + " El riesgo anual de ACV sin tratamiento con ACO se estima en 3,2%\n";
+
+}
+
+}
+</script>

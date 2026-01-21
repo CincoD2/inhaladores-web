@@ -1,0 +1,175 @@
+<script>
+    function myFunction() {
+        // Declare variables 
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            td1 = tr[i].getElementsByTagName("td")[1];
+            td2 = tr[i].getElementsByTagName("td")[2];
+
+
+
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                txtValue1 = td1.textContent || td1.innerText;
+                txtValue2 = td2.textContent || td2.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1 || txtValue1.toUpperCase().indexOf(filter) > -1 || txtValue2.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    // Link table rows to row href
+
+
+    /*function linkss() {
+        var table = document.getElementById("myTable");
+        var trd = table.getElementsByTagName("tr");
+        var j;
+        for (j = 0; j < trd.length; j++) {
+        
+    
+        let link_a = trd[j].lastElementChild.firstChild.href; 
+    
+        trd[j].onclick = function () {
+            window.open(link_a);
+            }
+        }
+    
+    }
+    
+    
+    */
+
+</script>
+
+<style>
+    #myInput {
+        background-image: url('https://www.riberasalud.com/wp-content/themes/grupo-ribera/assets/search.svg');
+        /* Add a search icon to input */
+        background-position: 10px 12px;
+        /* Position the search icon */
+        background-repeat: no-repeat;
+        /* Do not repeat the icon image */
+        width: 100%;
+        /* Full-width */
+        background-size: 25px;
+        font-size: 12px;
+        /* Increase font-size */
+        padding: 12px 20px 12px 40px;
+        /* Add some padding */
+        border: 1px solid #ddd;
+        /* Add a grey border */
+        margin-bottom: 12px;
+        /* Add some space below the input */
+    }
+
+    #myTable {
+        border-collapse: collapse;
+        /* Collapse borders */
+        width: 100%;
+        /* Full-width */
+        border: 1px solid #ddd;
+        /* Add a grey border */
+        font-size: 12px;
+        /* Increase font-size */
+        font-family: sans-serif;
+    }
+
+    #myTable th,
+    #myTable td {
+        text-align: left;
+        /* Left-align text */
+        padding: 12px;
+        /* Add padding */
+    }
+
+    #myTable tr {
+        /* Add a bottom border to all table rows */
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+    #myTable tr:hover {
+        /* Add a grey background color to the table header and on hover */
+        background-color: #f4e2e2;
+    }
+
+    #myTable tr.header {
+        /* Add a grey background color to the table header and on hover */
+        background-color: #980000;
+        color: #ffffff;
+    }
+
+    #myTable td+td+td+td {
+        text-align: center;
+    }
+
+    #myTable td+td+td {
+        font-style: italic;
+    }
+
+    #myTable td:nth-child(2) {
+        font-weight: bold;
+    }
+
+</style>
+
+<html>
+
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Busca palabras clave...">
+
+<body>
+
+    <div id="json"></div>
+
+</body>
+
+</html>
+
+<script>
+    var id = '1qoY_OwyknEgu-pZgi2YI0Tms-lRujN-7c64M0Gu40C8';
+    var gid = '0';
+    var url = 'https://docs.google.com/spreadsheets/d/' + id + '/gviz/tq?tqx=out:json&tq&gid=' + gid;
+    fetch(url)
+        .then(response => response.text())
+        .then(data => document.getElementById("json").innerHTML = myItems(data.substring(47).slice(0, -2)));
+
+    function myItems(jsonString) {
+        var json = JSON.parse(jsonString);
+        var table = '<table id="myTable"><tr class="header" style="cursor: default"><th style="width:20%;">Especialidad</th><th style="width:35%;">Título</th><th style="width:40%;">Tags</th><th style="width:5%;text-align: center"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Link-icon.svg/571px-Link-icon.svg.png" height="15"></th></tr>'
+
+        json.table.rows.forEach(ligne => {
+            fila = ligne.c
+            link_a = fila[fila.length - 1].v
+            table += '<tr onclick="window.open(\'' + link_a + '\')">'
+            ligne.c.forEach(cellule => {
+                try {
+                    var valeur = cellule.f ? cellule.f : cellule.v
+                } catch (e) {
+                    var valeur = ''
+                }
+                if (valeur.includes("http")) {
+                    table += '<td><a target="_new" href="' + valeur + '"><center><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Link-icon.svg/571px-Link-icon.svg.png" height="15" ></center></a></td>'
+                } else {
+                    table += '<td>' + valeur + '</td>'
+                }
+            })
+            table += '</tr>'
+
+        })
+        table += '</table>'
+
+        return table
+    }
+
+</script>

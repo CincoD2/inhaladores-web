@@ -1,0 +1,278 @@
+<table class="checklist">
+
+  <tr><! Fila 0 Título >
+
+    <td colspan="4"><span id="titulo" style="font-size: 16px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">CRITERIOS MAYORES</span></td>
+  
+  </tr>
+
+
+<tr><! Fila 1 más de 75años >
+
+  <td><input type="checkbox" id="cbox0" value="10">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Necesidad de ventilación mecánica invasiva</span></td>
+
+</tr>
+
+<tr><! Fila 2  >
+
+  <td><input type="checkbox" id="cbox1" value="10">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Shock séptico que precisa fármacos vasoactivos</span></td>
+
+</tr>
+
+<tr><! Fila 3 Criterios Menores >
+
+    <td colspan="4"><span id="titulo" style="font-size: 16px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial"><br>CRITERIOS MENORES</span></td>
+  
+  </tr>
+
+<tr><! Fila 4  >
+
+  <td><input type="checkbox" id="cbox2" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Infiltrados multilobares</span></td>
+
+</tr>
+
+<tr><! Fila 5  >
+
+  <td><input type="checkbox" id="cbox3" value="1">
+
+    <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial"><a href="https://sites.google.com/site/urgenciasvsalud/calculadoras/pafi" target="_blank">PaO<sub>2</sub>/FiO<sub>2</sub></a> &le; 90 mmHg</span></td>
+
+</tr>
+
+<tr><! Fila 6  >
+
+  <td><input type="checkbox" id="cbox4" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Confusión/Desorientación</span></td>
+
+</tr>
+
+<tr><! Fila 7  >
+
+  <td><input type="checkbox" id="cbox5" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Frecuencia Respiratoria &ge; 30 rpm</span></td>
+
+</tr>
+
+<tr><! Fila 8  >
+
+  <td><input type="checkbox" id="cbox6" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Urea &gt; 43 mg/dL</span></td>
+
+</tr>
+
+<tr><! Fila 9  >
+
+  <td><input type="checkbox" id="cbox7" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Leucopenia &lt; 4 000 céls/mm<sup>3</sup></span></td>
+
+</tr>
+
+<tr><! Fila 10  >
+
+  <td><input type="checkbox" id="cbox8" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Trombocitopenia &lt; 100 000 céls/mm<sup>3</sup></span></td>
+
+</tr>
+
+<tr><! Fila 11  >
+
+  <td><input type="checkbox" id="cbox9" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Hipotermia &lt;36ºC</span></td>
+
+</tr>
+
+<tr><! Fila 12  >
+
+  <td><input type="checkbox" id="cbox10" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Hipotensión que precise aporte intensivo de fluidos</span></td>
+
+</tr>
+
+
+
+
+</table>
+
+<!--Tablacalcular-->
+
+<table class="tablacalcular">
+  <tr> 
+    <td colspan="4"><br><button id="calcular" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Calcular</button><br></td>
+    
+  </tr>
+</table>
+
+
+ <! DIV RESULTADO **************************************************************************>
+
+<div class="divresultado">
+
+<form action="">
+<br>
+<textarea cols=100 rows=15 id="resultadofinal"></textarea>
+
+</form>
+
+</div>
+<script>
+calcular.onclick = function(e){
+
+  var contador=0;
+  var texto_1='';
+  var resultadofinal_txt= '';
+  resultadofinal.value=""
+  
+
+  contador=0; //resetamos contador y texto
+  texto_1='';
+
+  // alert("el valor del contador es de ")
+
+  if (cbox0.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox0').value);
+    
+    resultadofinal.value="- Necesidad de ventilación mecánica invasiva\n";
+  }
+
+  if (cbox1.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox1').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Shock séptico que precisa fármacos vasoactivos\n";
+  }
+
+
+  if (cbox2.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox2').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Infiltrados multilobares\n";
+  }
+  
+  
+ if (cbox3.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox3').value);
+    
+    resultadofinal.value=resultadofinal.value +"- PaO2/FiO2 ≤ 90 mmHg\n";
+  }
+
+
+ if (cbox4.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox4').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Confusión/Desorientación\n";
+  }
+  
+  
+   if (cbox5.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox5').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Frecuencia Respiratoria ≥ 30 rpm\n";
+  }
+  
+  
+   if (cbox6.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox6').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Urea > 43 mg/dL\n";
+  }
+  
+  
+   if (cbox7.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox7').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Leucopenia < 4 000 céls/mm3 \n";
+  }
+  
+  
+   if (cbox8.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox8').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Trombocitopenia < 100 000 céls/mm3 \n";
+  }
+  
+  
+   if (cbox9.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox9').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Hipotermia <36ºC\n";
+  }
+
+    if (cbox10.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox10').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Hipotensión que precise aporte intensivo de fluidos\n";
+
+  }
+
+if (contador < 3){
+    resultadofinal.value= resultadofinal.value + "____________________________________________\n";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + " * Resultado IDSA/ATS: " + contador + " criterios menores y ningún criterio mayor. ";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + "_____________________________________________\n";
+
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + "No hay criterios de ingreso en UCI.\n";
+   
+
+}  else if (contador < 10){
+    resultadofinal.value= resultadofinal.value + "____________________________________________\n";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + " * Resultado IDSA/ATS: " + contador + " criterios menores y ningún criterio mayor. ";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + "_____________________________________________\n";
+
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + "Está indicado el ingreso en UCI.\n";
+    
+} else if (contador < 20){
+    resultadofinal.value= resultadofinal.value + "____________________________________________\n";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + " * Resultado IDSA/ATS: 1 criterio mayor y " + (contador - 10) + " criterios menores. ";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + "_____________________________________________\n";
+
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + "Está indicado el ingreso en UCI.\n";
+    
+} else {
+    resultadofinal.value= resultadofinal.value + "____________________________________________\n";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + " * Resultado IDSA/ATS: 2 criterios mayores y " + (contador - 20) + " criterios menores. ";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + "_____________________________________________\n";
+
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + "Está indicado el ingreso en UCI.\n";
+    
+}
+
+}
+</script>

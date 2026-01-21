@@ -8,6 +8,9 @@ export default function Escalas() {
           <a href="/escalas/wells-tvp">Wells – TVP</a>
         </li>
         <li>
+          <a href="/escalas/curb65">CURB-65</a>
+        </li>
+        <li>
           <a href="/escalas/hiponatremia">Hiponatremia</a>
         </li>
       </ul>

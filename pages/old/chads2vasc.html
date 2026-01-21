@@ -1,0 +1,147 @@
+<table class="checklist">
+    <tr>
+        <! Fila 0 Título>
+            <td colspan="4"><span id="titulo" style="font-size: 16px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial"></span></td>
+    </tr>
+    <tr>
+        <! Fila 1 más de 75años>
+            <td><input type="radio" name="Edad" id="menor" value="0" checked="true">
+            <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Edad &lt; 65 años</span></td>
+    </tr>
+    <tr>
+        <! Fila 1 más de 75años>
+            <td><input type="radio" name="Edad" id="intermedio" value="1">
+
+            <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Edad entre 65 y 74 años</span></td>
+    </tr>
+    <tr>
+        <! Fila 1 más de 75años>
+            <td><input type="radio" name="Edad" id="mayor" value="2">
+
+            <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Edad &ge; 75 años</span></td>
+    </tr>
+    <tr>
+        <! Fila 2>
+            <td> </td>
+            <td colspan="4"> </td>
+    </tr>
+    <tr>
+        <! Fila 2>
+            <td><input type="checkbox" id="cbox1" value="1">
+            <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Historia de Insuficiencia Cardiaca Congestiva<br></span><span style="font-size: 10px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">(Valoración clínica o disfunción ventricular moderada o severa o MCPH)</span></td>
+    </tr>
+    <tr>
+        <! Fila 3 Criterios Menores>
+            <td colspan="4"><span id="titulo" style="font-size: 16px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial"></span></td>
+    </tr>
+    <tr>
+        <! Fila 4>
+            <td><input type="checkbox" id="cbox2" value="1">
+            <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">HTA actual (&gt;140/90) o en tratamiento</span></td>
+    </tr>
+    <tr>
+        <! Fila 5>
+            <td><input type="checkbox" id="cbox3" value="2">
+            <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">ACV, AIT o TEP previos</span></td>
+    </tr>
+    <tr>
+        <! Fila 6>
+            <td><input type="checkbox" id="cbox4" value="1">
+            <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Historia de enfermedad vascular<br></span><span style="font-size: 10px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">(Enf. arterial coronaria significativa por angiografía, Infarto de miocardio previo, Enf. arterial periférica o ateromatosis aórtica)</span></td>
+    </tr>
+    <tr>
+        <! Fila 8>
+            <td><input type="checkbox" id="cbox5" value="1">
+            <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Diabetes mellitus<br></span><span style="font-size: 10px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">(Tratamiento con ADOs o Insulina o Glucemia capilar &gt; 125 mg/dL)</span></td>
+    </tr>
+    <tr>
+        <! Fila 9>
+            <td><input type="checkbox" id="cbox6" value="1">
+            <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Género femenino</span></td>
+    </tr>
+</table>
+
+<!--Tablacalcular-->
+<table class="tablacalcular">
+    <tr>
+        <td colspan="4"><br><button id="calcular" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Calcular</button><br></td>
+    </tr>
+</table>
+
+<! DIV RESULTADO **************************************************************************>
+    <div class="divresultado">
+        <form action="">
+            <br>
+            <textarea cols=100 rows=15 id="resultadofinal"></textarea>
+        </form>
+    </div>
+<script>
+        calcular.onclick = function(e) {
+            var contador = 0;
+            var RS1 = ""
+            var P = ["menor de 1.3 %", "1.3 %", "2.2 %", "3.2 %", "4.0 %", "6.7 %", "9.8 %", "9.6 %", "6.7 %", "15.2 %"];
+            var texto_1 = '';
+            var resultadofinal_txt = '';
+            resultadofinal.value = ""
+            contador = 0; //resetamos contador y texto
+            texto_1 = '';
+            // alert("el valor del contador es de ")
+            if (document.getElementById('menor').checked) {
+                contador = contador + 0;
+                resultadofinal.value = resultadofinal.value + "- Edad < 65 años\n";
+            } else if (document.getElementById('intermedio').checked) {
+                contador = contador + 1;
+                resultadofinal.value = resultadofinal.value + "- Edad entre 65 y 74 años\n";
+            } else if (document.getElementById('mayor').checked) {
+                contador = contador + 2;
+                resultadofinal.value = resultadofinal.value + "- Edad ≥ 75 años\n";
+            }
+            if (cbox1.checked === true) {
+                contador = contador + parseInt(document.getElementById('cbox1').value);
+                resultadofinal.value = resultadofinal.value + "- Historia de Insuficiencia Cardiaca Congestiva\n";
+            }
+            if (cbox2.checked === true) {
+                contador = contador + parseInt(document.getElementById('cbox2').value);
+                resultadofinal.value = resultadofinal.value + "- HTA actual (>140/90) o en tratamiento\n";
+            }
+            if (cbox3.checked === true) {
+                contador = contador + parseInt(document.getElementById('cbox3').value);
+                resultadofinal.value = resultadofinal.value + "- ACV, AIT o TEP previos\n";
+            }
+            if (cbox4.checked === true) {
+                contador = contador + parseInt(document.getElementById('cbox4').value);
+                resultadofinal.value = resultadofinal.value + "- Historia de enfermedad vascular\n";
+            }
+            if (cbox5.checked === true) {
+                contador = contador + parseInt(document.getElementById('cbox5').value);
+                resultadofinal.value = resultadofinal.value + "- Diabetes mellitus\n";
+            }
+            if (cbox6.checked === true) {
+                contador = contador + parseInt(document.getElementById('cbox6').value);
+                resultadofinal.value = resultadofinal.value + "- Género femenino\n";
+            }
+            resultadofinal.value = resultadofinal.value + "____________________________________________\n";
+            resultadofinal.value = resultadofinal.value + "\n";
+            if (contador == 1 && cbox6.checked === true) {
+                resultadofinal.value = resultadofinal.value + " * Resultado CHADS2-VASc Score: " + (contador - 1);
+            } else {
+                resultadofinal.value = resultadofinal.value + " * Resultado CHADS2-VASc Score: " + contador;
+            }
+            resultadofinal.value = resultadofinal.value + "\n";
+            resultadofinal.value = resultadofinal.value + "_____________________________________________\n";
+            RS1 = P[contador]
+            if (contador < 1) {
+                resultadofinal.value = resultadofinal.value + "\n";
+                resultadofinal.value = resultadofinal.value + "Riesgo Bajo. (Riesgo de ACV en el próximo año: " + RS1 + ")\n";
+            } else if (contador == 1 && cbox6.checked === true) {
+                resultadofinal.value = resultadofinal.value + "\n";
+                resultadofinal.value = resultadofinal.value + "Riesgo Bajo. (Riesgo de ACV en el próximo año: menor de 1.3 %)\n";
+            } else if (contador == 1) {
+                resultadofinal.value = resultadofinal.value + "\n";
+                resultadofinal.value = resultadofinal.value + "Riesgo bajo-moderado. Considerar anticoagulación o antiagregación (Riesgo de ACV en el próximo año: " + RS1 + ")\n";
+            } else {
+                resultadofinal.value = resultadofinal.value + "\n";
+                resultadofinal.value = resultadofinal.value + "Riesgo moderado o alto. Está indicada la anticoagulación (Riesgo de ACV en el próximo año: " + RS1 + ")\n";
+            }
+        }
+</script>

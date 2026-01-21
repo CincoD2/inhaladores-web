@@ -1,0 +1,122 @@
+<table class="checklist">
+
+  <tr><! Fila 0 Título >
+
+    <td colspan="4"><span id="titulo"></span></td>
+  
+  </tr>
+
+
+<tr><! Fila 1 más de 75años >
+
+  <td><input type="checkbox" id="cbox0" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Estado mental alterado o empeorado</span></td>
+
+</tr>
+
+<tr><! Fila 2  >
+
+  <td><input type="checkbox" id="cbox1" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Frecuencia respiratoria &ge;22rpm</span></td>
+
+</tr>
+
+<tr><! Fila 3  >
+
+  <td><input type="checkbox" id="cbox2" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">TAS &le;100mmHg</span></td>
+
+</tr>
+
+
+
+</table>
+
+<!--Tablacalcular-->
+
+<table class="tablacalcular">
+  <tr> 
+    <td colspan="4"><br><button id="calcular" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Calcular</button><br></td>
+    
+  </tr>
+</table>
+
+
+ <! DIV RESULTADO **************************************************************************>
+
+<div class="divresultado">
+
+<form action="">
+<br>
+<textarea cols=100 rows=15 id="resultadofinal"></textarea>
+
+</form>
+
+</div>
+<script>
+calcular.onclick = function(e){
+
+  var contador=0;
+  var texto_1='';
+  var resultadofinal_txt= '';
+  resultadofinal.value=""
+  
+
+  contador=0; //resetamos contador y texto
+  texto_1='';
+
+  // alert("el valor del contador es de ")
+
+  if (cbox0.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox0').value);
+    
+    resultadofinal.value="- Estado mental alterado\n";
+  }
+
+  if (cbox1.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox1').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Frecuencia respiratoria ≥22rpm\n";
+  }
+
+
+  if (cbox2.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox2').value);
+    
+    resultadofinal.value=resultadofinal.value +"- TAS ≤100mmHg\n";
+  }
+  
+  
+
+
+
+
+resultadofinal.value= resultadofinal.value + "____________________________________________\n";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + " * Resultado qSOFA =  " + contador;
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + "_____________________________________________\n";
+
+if (contador < 2){
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + " BAJO RIESGO: Repetir qSOFA frecuentemente. Continuar tratamiento estándar.\n";
+   
+
+}
+
+  if (contador >= 2){
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + " RIESGO ALTO. Vigilar disfunción orgánica. Pedir Lactato. Evaluar con SOFA.\n";
+    
+}
+
+}
+</script>

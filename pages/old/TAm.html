@@ -1,0 +1,38 @@
+<script>
+
+function borrar(form)
+{Dr.innerHTML="";}
+function compute(form)
+{
+if(form.sp.value<=0 || isNaN(form.sp.value)){Dr.innerHTML="<font color='Brown'><strong>revisa valores!!</strong></font>";form.sp.value="";}
+if(form.dp.value<=0|| isNaN(form.dp.value)){Dr.innerHTML="<font color='Brown'><strong>revisa valores!!</strong></font>";form.dp.value="";}
+if(form.dp.value>=form.sp.value){Dr.innerHTML="<font color='Brown'><strong>¿La diastólica mayor que la sistólica? Revisa los valores!</strong></font>";}
+
+else{
+ 
+dp = form.dp.value;
+sp = form.sp.value;form.sp.value=form.sp.value+" mmHg"; form.dp.value=form.dp.value+" mmHg"; 
+MAP=Math.round(dp-(-(sp-dp)/3));
+/*TAMBIEN ASI *PAM= ((2*dp)-(-sp))/3;*/
+Dr.innerHTML="PAM = "+  MAP+" mmHg";
+}}
+</script>
+<center>
+<h1>PAM</h1><form>
+       
+ 
+  <div data-role="content"  data-theme="d" > <strong>Presion arterial media</strong>
+        <div class="ui-body ui-body-d" style="max-width:400px">
+        
+       
+
+         TAS <input size="16" type="tel" name="sp" placeholder="TAS (mmHg)" /><br>TAD
+
+        <input size="16" type="tel" name="dp"  placeholder="TAD(mmHg)"/><br><br>
+        
+<input type="button" value="Calcular"   onClick="compute(form)">
+<input type="reset"  value="Borrar" onclick="borrar(form);" >
+
+<br><br>
+<strong><div id="Dr">PAM</div></strong>
+</form>

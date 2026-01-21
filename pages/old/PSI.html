@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es"> <! Lenguaje español>
+<head>
+
+  
+
+
+<meta charset="UTF-8">
+
+
+
+</head>
+<body> 
+<div style="font-size: 14px; font-style: normal; font-weight:normal; text-align:left;font-family: Arial;">
+
+<!Nueva tabla>
+
+<table class="checklist">
+
+  <tr><! Fila 0 Título >
+
+    <td colspan="4"><span id="titulo"></span></td>
+  
+  </tr>
+
+<tr><! FilaV>
+
+  <td><input type="radio" name="sexo" id="hombre" value="H" checked="true">
+
+  <span class="Texto_checkbox"> Hombre</span> 
+
+</tr>
+
+<tr><! Fila 2  >
+
+  <td><input type="radio" name="sexo" id="mujer" value="M">
+
+  <span class="Texto_checkbox"> Mujer</span>
+
+</tr>
+
+<tr><! Fila 3  >
+
+  <td><input type="text" id="edad" size=3 value="0">
+
+  <span class="Texto"> Edad</span>
+
+</tr>
+
+<tr><! Fila 4 más de 75años >
+
+  <td><input type="checkbox" id="cbox0" value="10">
+
+  <span class="Texto_checkbox"> Institucionalizado</span>
+
+</tr>
+
+<tr><! Linea separadora >
+
+  <td><span class="Texto_checkbox"><hr></span></td>
+
+</tr>
+
+
+
+<tr><! Fila 5  >
+
+  <td><input type="checkbox" id="cbox1" value="30"><span class="Texto_checkbox"> Neoplasia</span>
+
+ 
+
+</tr>
+
+<tr><! Fila 6  >
+
+  <td><input type="checkbox" id="cbox2" value="20">
+
+  <span class="Texto_checkbox"> Hepatopatía</span>
+
+</tr>
+
+<tr><! Fila 7  >
+
+  <td><input type="checkbox" id="cbox3" value="10">
+
+  <span class="Texto_checkbox">Insuficiencia Cardiaca Congestiva</span>
+
+</tr>
+
+
+<tr><! Fila 8  >
+
+  <td><input type="checkbox" id="cbox4" value="10">
+
+  <span class="Texto_checkbox">ACV</span>
+
+</tr>
+
+<tr><! Fila 9 >
+
+  <td><input type="checkbox" id="cbox5" value="10">
+
+  <span class="Texto_checkbox">Nefropatía</span>
+
+</tr>
+
+<tr><! Linea separadora >
+
+  <td><span class="Texto_checkbox"><hr></span></td>
+
+</tr>
+
+
+
+<tr><! Fila 10 >
+
+  <td><input type="checkbox" id="cbox6" value="20">
+
+  <span class="Texto_checkbox">Alteración del nivel de conciencia</span>
+
+</tr>
+
+<tr><! Fila11 >
+
+  <td><input type="checkbox" id="cbox7" value="20">
+
+  <span class="Texto_checkbox">Frecuencia respiratoria &ge;30 rpm</span>
+
+</tr>
+
+<tr><! Fila12 >
+
+  <td><input type="checkbox" id="cbox8" value="20">
+
+ <span class="Texto_checkbox">TAS &le;90 mmHg</span>
+
+</tr>
+<tr><! Fila13 >
+
+  <td><input type="checkbox" id="cbox9" value="15">
+
+ <span class="Texto_checkbox">Temperatura (ºC) &lt;35 o &gt;40</span>
+</tr>
+
+<tr><! Fila14 >
+
+  <td><input type="checkbox" id="cbox10" value="10">
+
+ <span class="Texto_checkbox">Frecuencia cardiaca &gt;125 lpm</span>
+
+</tr>
+
+<tr><! Linea separadora >
+
+  <td><span class="Texto_checkbox"><hr></span></td>
+
+</tr>
+
+
+
+<tr><! Fila15 >
+
+  <td><input type="checkbox" id="cbox11" value="30">
+
+  <span class="Texto_checkbox">pH arterial &lt;7,35</span>
+
+</tr>
+
+<tr><! Fila16 >
+
+  <td><input type="checkbox" id="cbox12" value="20">
+
+  <span class="Texto_checkbox">Urea &ge;65mg/dl o Creatinina &gt;1,5 mg/dl</span>
+
+</tr>
+
+<tr><! Fila17 >
+
+  <td><input type="checkbox" id="cbox13" value="20">
+
+  <span class="Texto_checkbox">Sodio &lt;130 mEq/l</span>
+
+</tr>
+
+<tr><! Fila18 >
+
+  <td><input type="checkbox" id="cbox14" value="10">
+
+  <span class="Texto_checkbox">Glucemia &ge;250 mg/dl</span>
+
+</tr>
+
+<tr><! Fila19 >
+
+  <td><input type="checkbox" id="cbox15" value="10">
+
+  <span class="Texto_checkbox">Hematocrito &lt;30%</span>
+
+</tr>
+
+<tr><! Fila20 >
+
+  <td><input type="checkbox" id="cbox16" value="10">
+
+  <span class="Texto_checkbox">pO<sub>2</sub> arterial &lt;60 mmHg o Saturación O<sub>2</sub> basal &lt;90%</span>
+
+</tr>
+
+<tr><! Fila21 >
+
+  <td><input type="checkbox" id="cbox17" value="10">
+
+  <span class="Texto_checkbox">Derrame pleural</span>
+
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</table>
+</div>
+<!--Tablacalcular-->
+
+<table class="tablacalcular">
+  <tr> 
+    <br><button id="calcular" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Calcular</button>
+    
+  </tr>
+</table>
+
+
+ <! DIV RESULTADO **************************************************************************>
+
+<div class="divresultado">
+
+<form action="">
+
+<textarea rows=20 cols=100 id="resultadofinal"></textarea>
+
+</form>
+
+</div>
+
+<! SCRIPT*************************************************************************************>
+
+
+
+
+</script>
+
+
+<script >
+calcular.onclick = function(e){
+
+  var contador=0;
+  var edadtotal=0;
+  resultadofinal.value="";
+  
+
+  contador=0; //resetamos contador y texto
+
+
+  // alert("el valor del contador es de ")
+
+  edadtotal=parseInt(document.getElementById('edad').value);
+
+ // alert("la edad es de =" + edadtotal)
+
+  contador=parseInt(document.getElementById('edad').value);
+ 
+  resultadofinal.value=resultadofinal.value + "- Edad del paciente: " + edadtotal+ " años\n";
+
+
+
+  if (document.getElementById('mujer').checked){ 
+  
+    contador = contador - 10;
+
+    resultadofinal.value=resultadofinal.value + "- Sexo: Mujer\n";
+  }
+
+  if (document.getElementById('hombre').checked){ 
+  
+    contador = contador + 0;
+
+    resultadofinal.value= resultadofinal.value + "- Sexo: Hombre\n";
+  }
+
+
+if (document.getElementById('cbox0').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Institucionalizado\n";
+
+  contador=contador + parseInt(document.getElementById('cbox0').value);
+
+}
+
+if (document.getElementById('cbox1').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Neoplasia\n";
+
+  contador=contador + parseInt(document.getElementById('cbox1').value);
+
+}
+
+if (document.getElementById('cbox2').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Hepatopatía\n";
+
+  contador=contador + parseInt(document.getElementById('cbox1').value);
+
+}
+
+if (document.getElementById('cbox3').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Insuficiencia Cardiaca Congestiva\n";
+
+  contador=contador + parseInt(document.getElementById('cbox3').value);
+
+}
+
+if (document.getElementById('cbox4').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- ACV\n";
+
+  contador=contador + parseInt(document.getElementById('cbox4').value);
+
+}
+
+if (document.getElementById('cbox5').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Nefropatía\n";
+
+  contador=contador + parseInt(document.getElementById('cbox5').value);
+
+}
+
+if (document.getElementById('cbox6').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Alteración de la consciencia\n";
+
+  contador=contador + parseInt(document.getElementById('cbox6').value);
+
+}
+
+if (document.getElementById('cbox7').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Frec respiratotia >30 rpm\n";
+
+  contador=contador + parseInt(document.getElementById('cbox7').value);
+
+}
+
+if (document.getElementById('cbox8').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- TAS ≤90 mmHg\n";
+
+  contador=contador + parseInt(document.getElementById('cbox8').value);
+
+}
+
+if (document.getElementById('cbox9').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Temperatura <35ºC o >40ºC\n";
+
+  contador=contador + parseInt(document.getElementById('cbox9').value);
+
+}
+
+if (document.getElementById('cbox10').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Frecuencia cardiaca >125 lpm\n";
+
+  contador=contador + parseInt(document.getElementById('cbox10').value);
+
+}
+
+if (document.getElementById('cbox11').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- pH arterial <7,35\n";
+
+  contador=contador + parseInt(document.getElementById('cbox11').value);
+
+}
+
+if (document.getElementById('cbox12').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Urea >65 mg/dl o Creatinina >1,5 mg/dl\n";
+
+  contador=contador + parseInt(document.getElementById('cbox12').value);
+
+}
+
+
+if (document.getElementById('cbox13').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Natremia <130 mEq/l\n";
+
+  contador=contador + parseInt(document.getElementById('cbox13').value);
+
+}
+
+if (document.getElementById('cbox14').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Glucemia ≥250 mg/dl\n";
+
+  contador=contador + parseInt(document.getElementById('cbox14').value);
+
+}
+
+if (document.getElementById('cbox15').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Hematocrito <30%\n";
+
+  contador=contador + parseInt(document.getElementById('cbox15').value);
+
+}
+
+if (document.getElementById('cbox16').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- pO2 arterial <60 mmHg o SatO2 <90%\n";
+
+  contador=contador + parseInt(document.getElementById('cbox16').value);
+
+}
+
+if (document.getElementById('cbox17').checked){ 
+    
+  
+  resultadofinal.value=resultadofinal.value + "- Derrame pleural\n";
+
+  contador=contador + parseInt(document.getElementById('cbox17').value);
+
+}
+
+
+resultadofinal.value= resultadofinal.value + "____________________________________________\n";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + " * Pneumonia Severity Index (PSI) = " + contador;
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + "_____________________________________________\n";
+
+if (contador<=50){
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + " PSI Clase I\n";
+    resultadofinal.value= resultadofinal.value + " La mortalidad a los 30 días es del 0,1-2,8%\n";
+    resultadofinal.value= resultadofinal.value + " Se puede dar alta domiciliaria\n";
+
+}
+
+  if (contador>50 && contador<=70){
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + " PSI Clse II\n";
+    resultadofinal.value= resultadofinal.value + " La mortalidad a los 30 días es del 0,1-2,8%\n";
+    resultadofinal.value= resultadofinal.value + " Se puede dar alta domiciliaria\n";
+
+}
+if (contador>70 && contador <=90){
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + " PSI Clase III \n";
+    resultadofinal.value= resultadofinal.value + " La mortalidad a los 30 días es del 0,1-2,8%\n";
+    resultadofinal.value= resultadofinal.value + " Se recomienda ingreso en Unidad de Corta Estancia si no hay hipoxemia\n";
+}
+
+
+if (contador>90 && contador <=131){
+  resultadofinal.value= resultadofinal.value +"\n";
+
+  resultadofinal.value= resultadofinal.value + " PSI Clase IV \n";
+  resultadofinal.value= resultadofinal.value + " La mortalidad a los 30 días es del 8,2-9,3%\n";
+  resultadofinal.value= resultadofinal.value + " El paciente precisa ingreso Hospitalario\n";
+}
+
+if (contador>131){
+  resultadofinal.value= resultadofinal.value +"\n";
+
+  resultadofinal.value= resultadofinal.value + " PSI Clase V \n";
+  resultadofinal.value= resultadofinal.value + " La mortalidad a los 30 días es del 27-31%\n";
+  resultadofinal.value= resultadofinal.value + " El paciente precisa ingreso Hospitalario\n";
+}
+
+if (edadtotal==0) {
+
+  //alert("Introduce la edad del paciente");
+
+  resultadofinal.value="Introduce la edad del Paciente";
+
+}
+
+}
+
+
+</script>
+
+</body>
+
+
+</html>

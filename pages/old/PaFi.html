@@ -1,0 +1,106 @@
+<script>
+    function calcule1(form) {
+        var R = 0;
+        R = Math.round((form.pO2.value / form.FiO2.value) * 100);
+        SDRA = "<strong>PaFi=</strong> " + R + " mmHg<br>";
+        if (form.pO2.value < 10 || form.FiO2.value < 21 || form.FiO2.value > 100) {
+            !alert("!! Revisa valores pO2 y/o FiO2 (21%-100%) !!")
+            SDRA = "Resultado";
+            R = "Gravedad";
+            dRA.innerHTML = SDRA;
+            dRB.innerHTML = R;
+            form.FiO2.value = "";
+            form.pO2.value = "";
+        }
+
+        dRA.innerHTML = SDRA;
+
+        if (R > 0 && R <= 100) {
+            dRB.innerHTML = "<strong>SDRA Grave(*)</strong><br><small>Mortalidad 45%";
+        }
+        if (R > 100 && R <= 200) {
+            dRB.innerHTML = "<strong>SDRA Moderado(*)</strong><br><small>Mortalidad 32%";;
+        }
+        if (R > 200 && R <= 300) {
+            dRB.innerHTML = "<strong>SDRA leve(*)</strong><br><small>Mortalidad 27%";;
+        }
+        if (R > 300) {
+            dRB.innerHTML = "Adecuada PaFi";
+        }
+    }
+
+    function Limpiar(form) {
+        form.FiO2.value = "";
+        form.pO2.value = "";
+        dRA.innerHTML = "";
+        dRB.innerHTML = ""
+
+    }
+
+    function oxigeno(form) {
+        form.FiO2.value = form.o2.value
+    }
+
+</script>
+
+
+
+<div data-role="dialog" id="pafi">
+    <div data-role="header" data-theme="c">
+        <h1>
+            <center>PaFi</center>
+        </h1>
+
+    </div>
+
+
+    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+        <form>
+
+            <div align="center"><strong>Cálculo de PaO<sub>2</sub>/FiO<sub>2</sub> </strong></div>
+
+            <table align="center">
+
+                <tr align="center">
+
+                    <td>
+
+                        <div data-role="fieldcontain">
+
+
+                            pO<sub>2</sub> mmHg<br><input type="tel" name="pO2" id="pO2" placeholder="pO2 (mmhg)" onkeyup="cambia(this);"><br><br>
+                            FiO<sub>2</sub> (%)<br> <input type="tel" name="FiO2" id="FiO2" placeholder="FiO2 (%)" onkeyup="cambia(this);" /><br><br></div>
+                        <div data-role="controlgroup" data-type="horizontal">
+                            <input type="button" name="Calculate" data-theme="b" value="Calcular" onClick="calcule1(form)">
+
+                            <input type="button" data-theme="f" value="Borrar" onclick="Limpiar(this.form)"><br>
+                        </div><br>
+                        <div id="dRA">Resultado</div>
+                        <div id="dRB">Gravedad</div>
+
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <div align="center"><small><br>Fórmula utilizada: (pO<sub>2</sub>/FiO<sub>2</sub>)*100 </small></div>
+            <br><br>
+            <center>
+                <label for="cars">Oxígeno suplementario:</label><br>
+                <select onchange="oxigeno(this.form);" id="o2" name="o2" size="10">
+                    <option value="21">Sin oxígeno suplementario</option>
+                    <option value="24">Gafas nasales a 1 lpm</option>
+                    <option value="28">Gafas nasales a 2 lpm</option>
+                    <option value="32">Gafas nasales a 3 lpm</option>
+                    <option value="36">Gafas nasales a 4 lpm</option>
+                    <option value="40">Gafas nasales a 5 lpm</option>
+                    <option value="30">VMK al 30%</option>
+                    <option value="35">VMK al 35%</option>
+                    <option value="40">VMK al 40%</option>
+                    <option value="50">VMK reservorio</option>
+                </select><br><br>
+            </center>
+        </form>
+    </div>
+</div>
+
+        

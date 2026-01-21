@@ -1,0 +1,142 @@
+<script>
+function analyze(form) {
+
+var T=0;
+var T1=0;
+var T2=0;
+var T3=0;
+
+if (form.FR1.checked){T1=T1+1} 
+if (form.FR2.checked){T1=T1+1} 
+if (form.FR3.checked){T1=T1+1} 
+if (form.FR4.checked){T1=T1+1}
+if (form.FR5.checked){T1=T1+1}
+// if (form.FR0.checked){T1=T1*0}
+if (form.edad.checked){ T=T+1} 
+if (form.CAD.checked){T=T+1}
+if (form.AI.checked){T=T+1}
+if (form.Tto.checked){T=T+1}
+if (form.ST.checked){T=T+1} 
+if (form.Tn.checked){T=T+1}
+
+if (T1>=3) {T2=1;divResultado1.innerHTML="<strong>"+T1+" FRCV (&#8805;3 = 1 punto)<strong>"}
+if (T1>=0&&T1<3) { T2=0;divResultado1.innerHTML="<strong>"+T1+" <strong>FRCV (<3 = 0 puntos)<strong>"}
+
+
+T3=parseInt(T)+parseInt(T2)
+P="<strong>TIMI Risk Score para SCASEST: "+T3+" puntos </strong>";
+M="<p>Riesgo combinado*: ";
+M1="<br>Mortalidad por IAM: ";
+M2="<br>*<small>Riesgo combinado a los 14 días de mortalidad global, nuevo o recurrente IAM, o isquemia severa recurrente que precisa revascularización urgente</small>";
+RB="<strong>Bajo riesgo</strong><br>"
+RM="<strong>Riesgo Moderado</strong><br>"
+RA="<strong>Alto riesgo</strong><br>"
+RI="<strong>Riesgo intermedio</strong><br>"
+divResultado2.innerHTML=P;
+divResultado3.innerHTML=M2;
+if (T3>=0&&T3<2) {divResultado.innerHTML  = M+"<strong>4.7 %</strong>"+M1+"<strong>3%</strong>"}
+if (T3==2) {divResultado.innerHTML  = M+"<strong>8.3 %</strong>"+M1+"<strong>3%</strong>"}
+if (T3==3) {divResultado.innerHTML  =M+"<strong>13.2 %</strong>"+M1+"<strong>5%</strong>"}
+if (T3==4)  {divResultado.innerHTML  =M+"<strong>20 %</strong>"+M1+"<strong>7%</strong>"}
+if (T3==5) {divResultado.innerHTML  =M+"<strong>26.2 %</strong>"+M1+"<strong>12%</strong>"}
+if (T3>=6)  {divResultado.innerHTML  =M+"<strong>41 %</strong>"+M1+"<strong>19%</strong>"}
+
+if (T3>=0&&T3<=2 ) {divResultado0.innerHTML =RB+"Puede seguir tratamiento ambulatorio.<br>"}
+if (T3>=3&&T3<=4 ) {divResultado0.innerHTML =RI+"Ingreso hospitalario. Iniciar enoxaparina o HNF, y IIb/IIIa si se plantea estrategia invasiva precoz (PCI).<br>"}
+if (T3>4 ) {divResultado0.innerHTML =RA+"Ingreso hospitalario. Iniciar enoxaparina o HNF y IIb/IIIa, Estrategia invasiva precoz (ICP).<br>"}
+
+if (T3==1 && (form.ST.checked||form.Tn.checked)) {divResultado0.innerHTML  =RB+"<br>Puede seguir tratamiento ambulatorio. Se recomienda una prueba de estres no invasiva para valoración de isquemia inducible antes del alta (clase: IA)</center><br>"
+ }
+
+if (T3==2&& form.Tn.checked) {
+
+ divResultado0.innerHTML  =RM+"(debido al incremento de cTnI)<br> Ingreso hospitalario.<br>"
+}
+if (T3==2&& form.ST.checked) {
+
+ divResultado0.innerHTML  =RM+"(debido a los cambios en el ST)<br>Ingreso hospitalario.<br>"
+}
+if (T3==2 && form.Tn.checked && form.ST.checked) {
+
+ divResultado0.innerHTML  = RM+"(debido al incremento de cTnI y alt. del ST)<br>Ingreso hospitalario.<br>"
+}}
+
+</script>
+
+<form>
+
+
+<div data-role="page" id="SCA" >
+  <div data-role="header" data-theme="c">
+   <h1><center>TIMI Risk Score (SCASEST)</center></h1>
+      
+  </div>
+  <div data-role="content" data-theme="d">
+   
+    <div align="left">
+ 
+
+
+
+<div id="divResultado1"><strong>Factores de Riesgo Cardiovascular</strong></div>
+
+                      <!--<input type="checkbox" name="FR0" id="1a"  onClick="analyze(form)"/> 
+     <label for="1a">Ninguno</label><br> -->
+                       <input type="checkbox" name="FR1" id="8a"  onClick="analyze(form)"/> 
+     <label for="8a">HTA > 140/90 o en tratamiento </label><br>
+                      <input type="checkbox" name="FR2" id="9a"  onClick="analyze(form)"/>
+     <label for="9a">Tabaquismo</label><br>
+                      <input type="checkbox" name="FR3" id="10a"  onClick="analyze(form)"/>
+     <label for="10a">Dislipemia (HDL<40)</label><br>
+                      <input type="checkbox" name="FR4" id="11a"  onClick="analyze(form)"/>
+     <label for="11a">Diabetes</label><br>
+                       <input type="checkbox" name="FR5" id="12a"  onClick="analyze(form)"/>
+     <label for="12a">Antecedentes familiares de Cardiopatía Isquémica prematura</label><br><br>
+                     
+                         
+
+                  
+                    
+  
+<div><strong>Hallagos clínicos:</strong></div>
+     <input type="checkbox" name="CAD" id="2a" class="custom" onClick="analyze(form)"/>
+     <label for="2a">CAD previa (estenosis &#8805;50%)</label><br>
+     
+     <input type="checkbox" name="Tto" id="3a" class="custom" onClick="analyze(form)"/>
+     <label for="3a">Tto con AAS más de 1 semana</label><br>
+
+     <input type="checkbox" name="AI" id="4a" class="custom" onClick="analyze(form)"/>
+     <label for="4a">Angina Severa (&#8805;2 crisis/24 h)</label><br>
+                    
+                     <input type="checkbox" name="ST" id="5a" class="custom" onClick="analyze(form)"/>
+     <label for="5a">ST cambios (&#8805;0'5 mm) </label><br>
+
+     <input type="checkbox" name="Tn" id="6a" class="custom" onClick="analyze(form)"/>
+     <label for="6a">Biomarcadores elevados </label><br>
+     
+        <input type="checkbox" name="edad" id="7a" class="custom" onClick="analyze(form)"/>
+     <label for="7a">Edad &#8805; 65</label><br><br>
+                    
+                    <fieldset style="font-family:courier;font-size:12">
+                    <center>
+                    <div id="divResultado2"></div>
+                    
+     
+                  
+
+
+
+     
+                    <div id="divResultado0">Resultado TIMI Risk Score para SCASEST</div>
+                    <div id="divResultado"></div>
+                    <div id="divResultado3"></div>
+</fieldset>
+                    
+                    <small><br><strong>Referencia: </strong> <a href="http://jama.ama-assn.org/cgi/content/abstract/284/7/835">Antman EM, Cohen M, Bernink PJ, et. al. The TIMI risk score for unstable angina/non-ST elevation MI: A method for prognostication and therapeutic decision making. JAMA. 2000 Aug 16;284(7):835-42</a></small></div>      
+  </div>
+
+  
+
+
+                         
+</form>

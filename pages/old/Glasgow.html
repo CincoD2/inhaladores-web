@@ -1,0 +1,93 @@
+<SCRIPT>
+function borrar(){
+
+var total = 15
+var ojo = 4
+var verbo = 5
+var motor = 6
+
+divResultado.innerHTML = "<center> Puntuación <b>GCS = "+total+"</b> (<b>O</b>:"+ojo+",<b>V</b>:"+verbo+",<b>M</b>:"+motor+")</center>";
+divResultado0.innerHTML = "<center><b>Sin lesión cerebral </b></center>"
+ROcular.innerHTML = "<strong>Respuesta OCULAR ("+ojo+")</strong>";
+    RVerbal.innerHTML = "<strong>Respuesta VERBAL ("+verbo+")</strong>";
+    RMotora.innerHTML = "<strong>Respuesta MOTORA ("+motor+")</strong>";
+
+}
+function calcular(){
+ var total = 0;
+ var ojo = parseInt(GCS.ojo.value);
+ var verbo = parseInt(GCS.verbo.value);
+    var motor = parseInt(GCS.motor.value);
+
+ 
+ total =  ojo + verbo + motor;
+
+ divResultado.innerHTML = "<center> Puntuación <b>GCS = "+total+"</b> (<b>O</b>:"+ojo+",<b>V</b>:"+verbo+",<b>M</b>:"+motor+")</center>";
+    ROcular.innerHTML = "<strong>Respuesta OCULAR ("+ojo+")</strong>";
+    RVerbal.innerHTML = "<strong>Respuesta VERBAL ("+verbo+")</strong>";
+    RMotora.innerHTML = "<strong>Respuesta MOTORA ("+motor+")</strong>";
+
+
+ if (total == 15)
+ {
+  divResultado0.innerHTML = "<center><b>Sin lesión cerebral </b></center>";
+  }
+        
+    if (total < 15)
+ {
+
+  divResultado0.innerHTML = "<center><b>Lesión cerebral leve</b></center>";
+  }
+
+ if (total < 13)
+ {
+  divResultado0.innerHTML = "<center><b>Lesión cerebral moderada</b></center>";
+ }
+
+ if (total< 8)
+ {
+  divResultado0.innerHTML = "<center><b>Lesión cerebral severa. Considerar IOT.</b></center>";
+
+}
+
+ }
+
+  </SCRIPT>
+        <center><h1>Glasgow Coma Scale (GCS)</h1></center><br><form name="GCS">
+        
+        <fieldset><legend id="ROcular"><strong>Respuesta OCULAR (4)</strong></legend>
+        <input type="radio" name="ojo" id="O1" value="4" onchange="calcular();" checked><label for="1"> Espontánea</label><br>
+        <input type="radio" name="ojo" id="O2" value="3" onchange="calcular();"><label for="1"> Apertura a la orden</label><br>
+        <input type="radio" name="ojo" id="O3" value="2" onchange="calcular();"><label for="1"> Apertura al dolor</label><br>
+        <input type="radio" name="ojo" id="O4" value="1" onchange="calcular();"><label for="1"> Sin respuesta</label><br>
+         
+        </fieldset><br>
+        
+        <fieldset><legend id="RVerbal"><strong>Respuesta VERBAL (5)</strong></legend>
+        <input type="radio" name="verbo" id="V1" value="5" onchange="calcular();" checked><label for="1"> Orientada</label><br>
+        <input type="radio" name="verbo" id="V2" value="4" onchange="calcular();"><label for="1"> Confusa</label><br>
+        <input type="radio" name="verbo" id="V3" value="3" onchange="calcular();"><label for="1"> Inapropiada</label><br>
+        <input type="radio" name="verbo" id="V4" value="2" onchange="calcular();"><label for="1"> Incomprensible</label><br>
+        <input type="radio" name="verbo" id="V5" value="1" onchange="calcular();"><label for="1"> Sin respuesta</label><br>
+        
+        </fieldset><br>
+        
+        <fieldset><legend id="RMotora"><strong>Respuesta MOTORA (6)</strong></legend>
+        <input type="radio" name="motor" id="M1" value="6" onchange="calcular();" checked><label for="1"> Obedece órdenes</label><br>
+        <input type="radio" name="motor" id="M2" value="5" onchange="calcular();"><label for="1"> Localiza estímulo doloroso</label><br>
+        <input type="radio" name="motor" id="M3" value="4" onchange="calcular();"><label for="1"> Retirada al dolor</label><br>
+        <input type="radio" name="motor" id="M4" value="3" onchange="calcular();"><label for="1"> Flexión (decorticación)</label><br>
+        <input type="radio" name="motor" id="M5" value="2" onchange="calcular();"><label for="1"> Extensión (descerebración)</label><br>
+        <input type="radio" name="motor" id="M6" value="1" onchange="calcular();"><label for="1"> Sin respuesta</label><br>
+        
+        </fieldset><br>
+        
+        <fieldset><legend><strong>Resultado</strong></legend>
+        <center><div style="font-family:courier; font-size:12" id="divResultado">Puntuación <b>GCS = 15</b> (<b>O</b>:4,<b>V</b>:5,<b>M</b>:6)</div>
+        <div style="font-family:courier; font-size:12" id="divResultado0"><b>Sin lesión cerebral</b></div>
+        </fieldset><br>
+        <center><input type="reset" value="Borrar" onclick="borrar();">
+        
+        </form>
+        
+

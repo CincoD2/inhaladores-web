@@ -1,0 +1,185 @@
+<!--<html>
+//<link rel="stylesheet" type="text/css" href="https://ssl.gstatic.com/sites/p/034961/system/app/themes/solitudecherry/standard-css-solitudecherry-ltr-ltr.css"/>
+-->
+
+<script>
+//function Calcular(){
+//    Call()
+    
+//}
+    
+    
+    
+    
+function Oxigeno(){
+FiO2 = parseInt(this.fO2.value)
+this.fFiO2.value = parseInt(this.fO2.value)
+}
+
+
+function HabilDP(fNeumonia) {
+
+if (fNeumonia == 0) {
+
+document.getElementById("fDP").checked = false
+document.getElementById("fDP").disabled = true
+
+} else {
+document.getElementById("fDP").disabled = false
+
+}
+}
+    
+function Calcular() {
+    
+    var comorbilidad=0;
+    
+    if (form.fHTA.checked || form.fDM.checked || form.fTIS.checked || form.fCardiopatia.checked || form.fBroncopatia.checked || form.fNeo.checked || form.fACV.checked || form.fHep.checked || form.fICC.checked) {
+        comorbilidad = 1
+        divResultadoCall.innerHTML = "Riesgo CALL "+comorbilidad
+        
+    }
+    
+    
+}
+    
+    
+    
+    
+    
+</script>
+
+<center><h1>Orientación de manejo de pacientes con sospecha de COVID-19 en Urgencias</h1></center><br><br>
+
+<form>
+
+
+<fieldset><legend><b>Antecedentes</b></legend>
+<table style="width:100%"><tr><td style="vertical-align:top;">
+
+<input type="radio" name="Genero" id="Mujer" checked><label for="Mujer">Mujer</label><br>
+<input type="radio" name="Genero" id="Hombre" ><label for="Hombre">Hombre</label><br><br>
+
+
+<input type="checkbox" id="fHTA" name="fHTA"><label for="fHTA"> HTA</label><br>
+<input type="checkbox" id="fDM" name="fDM"><label for="fDM"> Diabetes Mellitus</label><br>
+<input type="checkbox" id="fTIS" name="fTIS"><label for="fTIS"> Inmunodeprimidos/Inmunosuprimidos</label><br>
+<input type="checkbox" id="fInst" name="fInst"><label for="fInst"> Institucionalizado/Dependiente</label><br>
+<input type="checkbox" id="fCardiopatia" name="fCardiopatia"><label for="fCardiopatia"> Cardiopatía</label><br>   
+
+
+</td>
+<td style="vertical-align:top;">
+<label for="fEdad"> Edad</label> <input type="text" id="fEdad" name="fEdad" size=10 placeholder="años"><br><br><br>
+<input type="checkbox" id="fBroncopatia" name="fBroncopatia"><label for="fBroncopatia"> Broncopatía</label><br>
+<input type="checkbox" id="fNeo" name="fNeo"><label for="fNeo"> Neoplasia maligna</label><br>
+<input type="checkbox" id="fHep" name="fHep"><label for="fHep"> Hepatopatía</label><br>
+<input type="checkbox" id="fICTUS" name="fICTUS"><label for="fICTUS"> ACV</label><br>
+<input type="checkbox" id="fICC" name="fICC"><label for="fICC"> Insuficiencia Cardiaca Congestiva</label><br>
+</tr>
+</table>
+</fieldset><br>
+
+<fieldset><legend><b>Hallazgos Clínicos y Semiológicos</b></legend>
+
+<!--<input type="checkbox" id="fSpO2" name="fSpO2"><label for="fSpO2"> SpO<sub>2</sub>&lt; 90%</label> -->
+
+<table style="width:100%"><tr><td style="vertical-align:top;">
+
+<input type="text" id="fFiO2" name="fFiO2" size=10 value="21"><label for="fFiO2"> FiO<sub>2</sub></label><br>
+
+<input type="text" id="fSpO2" name="fSpO2" size=10 placeholder="%"><label for="fSpO2"> SpO<sub>2</sub></label><br>
+
+<select id="fDisnea" name="fDisnea" style="width:77;">
+  <option value="volvo" selected>No</option>
+  <option value="saab">Leve</option>
+  <option value="fiat">Moderada</option>
+  <option value="audi">De reposo</option>
+</select>
+<label for="fDisnea"> Disnea</label><br>
+
+<input type="text" id="fFR" name="fFR" size=10 placeholder="rpm"><label for="fFR"> Frec. Respiratoria</label><br>
+
+<input type="text" id="fFC" name="fFC" size=10 placeholder="lpm"><label for="fFC"> Frec. Cardíaca</label><br>
+
+<input type="text" id="fTemp" name="fTemp" size=10 placeholder="ºC"><label for="fTemp"> Temperatura</label><br>
+
+<input type="text" id="fTAS" name="fTAS" size=4 placeholder="TAS"> <input type="text" id="fTAD" name="fTAD" size=4 placeholder="TAD"><label for="fTAD"> Tensión Arterial</label><br>
+
+<input type="checkbox" id="fAltC" name="fAltC"><label for="fAltC"> Nivel Consciencia alterado</label><br>
+
+</td>
+
+
+<td style="vertical-align:top;">
+
+<label for="fO2">Oxígeno suplementario:</label><br>
+  <select onchange="Oxigeno(this.form);" id="fO2" name="fO2" size="10">
+    <option value="21" selected>Sin oxígeno suplementario</option>
+    <option value="24">Gafas nasales a 1 lpm</option>
+    <option value="28">Gafas nasales a 2 lpm</option>
+    <option value="32">Gafas nasales a 3 lpm</option>
+    <option value="36">Gafas nasales a 4 lpm</option>
+    <option value="40">Gafas nasales a 5 lpm</option>
+    <option value="30">VMK al 30%</option>
+    <option value="35">VMK al 35%</option>
+    <option value="40">VMK al 40%</option>
+    <option value="50">VMK reservorio</option>
+  </select>
+  </td>
+  
+</tr>
+</table>
+</fieldset><br>
+
+<fieldset><legend><b>Hallazgos de Laboratorio</b></legend>
+<table style="width:100%"><tr><td style="vertical-align:top;">
+
+<input type="text" id="fLinf" name="fLinf" size=10 placeholder="cél/mcL"><label for="fLinf"> Linfocitos</label><br>
+<input type="text" id="fLDH" name="fLDH" size=10 placeholder="UI/L"><label for="fLDH"> LDH</label><br>
+<input type="text" id="fDD" name="fDD" size=10 placeholder="mcg/L"><label for="fDD"> Dímero-D</label><br>
+<input type="text" id="fPCR" name="fPCR" size=10 placeholder="mg/dL"><label for="fPCR"> PCR</label><br>
+<input type="text" id="fFerr" name="fFerr" size=10 placeholder="ng/mL"><label for="fFerr"> Ferritina</label><br>
+
+</td>
+
+<td style="vertical-align:top;">
+
+<input type="text" id="fpH" name="fpH" size=10 placeholder="pH"><label for="fpH"> pH</label><br>
+<input type="text" id="fUrea" name="fUrea" size=10 placeholder="mg/dL"><label for="fUrea"> Urea</label><br>
+<input type="text" id="fCr" name="fCr" size=10 placeholder="mg/dL"><label for="fCr"> Creatinina</label><br>
+<input type="text" id="fNa" name="fNa" size=10 placeholder="mEq/L"><label for="fNa"> Sodio</label><br>
+<input type="text" id="fpO2" name="fpO2" size=10 placeholder="mmHg"><label for="fpO2"> pO<sub>2</sub></label><br>
+
+</tr>
+</table>
+</fieldset><br>
+
+<fieldset><legend><b>Hallazgos Radiológicos</b></legend>
+
+<input type="radio" name="fNeumonia" id="NoNac" value="0" checked onclick="HabilDP(this.value);"><label for="NoNac"> Sin Neumonía</label><br>
+<input type="radio" name="fNeumonia" id="UniNac" value="1" onclick="HabilDP(this.value);"><label for="UniNac"> Neumonía Unilateral</label><br>
+<input type="radio" name="fNeumonia" id="BiNac" value="2" onclick="HabilDP(this.value);"><label for="BiNac"> Neumonía Bilateral</label><br><br>
+
+<input type="checkbox" id="fDP" name="fDP" disabled><label for="fDP"> Derrame Pleural</label><br>
+
+
+</fieldset><br>
+<center>
+<input type="button" id="Calcular" name="Calcular" value="Calcular" onclick="Calcular()"> <input type="reset" value="Borrar"><br><br>
+
+<fieldset><legend><b>Resultado</b></legend>
+    <div style="font-family:courier;font-size:12" id="divResultadoCall"></div>
+    </fieldset>
+    
+    
+    
+
+    
+    </center>
+</form>
+
+</html>
+
+
+

@@ -1,0 +1,91 @@
+<script>
+function Borrar(){
+divResultado.innerHTML = "Introduce los datos"
+}
+function Oxigeno(){
+FiO2 = parseInt(GAA.fO2.value)
+GAA.fFiO2.value = parseInt(GAA.fO2.value)
+}
+
+function Calcular(){
+
+var PAtm = parseInt(GAA.fPAtm.value)
+var pCO2 = parseInt(GAA.fpCO2.value)
+var pO2 = parseInt(GAA.fpO2.value)
+var FiO2 = parseInt(GAA.fFiO2.value)
+var Edad = parseInt(GAA.fEdad.value)
+
+var ErrorPAtm = "Introduce un valor válido para la Presión Atmosférica"
+var ErrorPACO2 = "Introduce un valor válido para la PaCO<sub>2</sub>"
+var ErrorPAO2 = "Introduce un valor válido para la PaO<sub>2</sub>"
+var ErrorFiO2 = "Introduce un valor válido para la FiO<sub>2</sub>"
+var ErrorEdad = "Introduce un valor válido para la Edad"
+var Nota = ""
+var Interpretacion = ""
+
+GrAA = ((PAtm-47)*(FiO2/100)) - (pCO2/0.8) - pO2
+GEdad = Edad/4 - (-4)
+GrAAr = Math.round(GrAA*100)/100
+
+if (GAA.fPAtm.value<=0 || isNaN(GAA.fPAtm.value))
+{ divResultado.innerHTML= ErrorPAtm; return; }
+if (GAA.fpCO2.value<=0 || isNaN(GAA.fpCO2.value))
+{ divResultado.innerHTML= ErrorPACO2; return; }
+if (GAA.fpO2.value<=0 || isNaN(GAA.fpO2.value))
+{ divResultado.innerHTML= ErrorPAO2; return; }
+if (GAA.fFiO2.value<21 || GAA.fFiO2.value>100 ||isNaN(GAA.fFiO2.value))
+{ divResultado.innerHTML= ErrorFiO2; return; }
+if (GAA.fEdad.value<=0 || isNaN(GAA.fEdad.value))
+{ divResultado.innerHTML= ErrorEdad; return; }
+if (GrAA < 0) {
+divResultado.innerHTML="<center><b>Revisa los datos introducidos</b><br><small> El Gradiente (A-a) de oxígeno no puede dar negativo</small>";return;}
+
+if (GrAAr >GEdad) {
+Nota = " (elevado) "
+}
+
+if (GrAAr > GEdad && pO2 < 80) {
+Interpretacion = "<br><br>Posibles causas de hipoxemia CON elevación de Gradiente A-a:<br>Defecto de difusión, Alteración V/Q, Shunts"
+}
+
+if (GrAAr <= GEdad && pO2 < 80) {
+Interpretacion = "<br><br>Posibles causas de hipoxemia SIN elevación del Gradiente A-a:<br>Hipoventilación alveolar, baja FiO<sub>2</sub>"
+}
+
+
+divResultado.innerHTML = "Gradiente (A-a) O<sub>2</sub>: <b>"+ GrAAr +" mmHg</b>"+ Nota + "<br><small>(Valor normal por edad: "+ GEdad + " mmHg)</small>"+ Interpretacion
+}
+</script>
+
+
+<h1><center>Gradiente Alveolo-Arterial de oxígeno</h1></center>
+<form name=GAA>
+<input type="text" id="fPAtm" value="760" size="10"> Presión Atmosférica (mmHg)<br>
+<input type="text" id="fpCO2" value="" size="10" placeholder="mmHg"> pCO<sub>2</sub> (mmHg)<br>
+<input type="text" id="fpO2" value="" size="10" placeholder="mmHg"> pO<sub>2</sub> (mmHg)<br>
+<input type="text" id="fFiO2" value="21" size="10"> FiO<sub>2</sub> (%)<br>
+<input type="text" id="fEdad" value="" size="10" placeholder="años"> Edad (años)<br><br><br>
+
+<label for="fO2">Oxígeno suplementario:</label><br>
+  <select onchange="Oxigeno(this.form);" id="fO2" name="fO2" size="10">
+    <option value="21" selected>Sin oxígeno suplementario</option>
+    <option value="24">Gafas nasales a 1 lpm</option>
+    <option value="28">Gafas nasales a 2 lpm</option>
+    <option value="32">Gafas nasales a 3 lpm</option>
+    <option value="36">Gafas nasales a 4 lpm</option>
+    <option value="40">Gafas nasales a 5 lpm</option>
+    <option value="30">VMK al 30%</option>
+    <option value="35">VMK al 35%</option>
+    <option value="40">VMK al 40%</option>
+    <option value="50">VMK reservorio</option>
+  </select>
+
+<center><input type="button" id="bCalc" value="Calcular" onclick="Calcular();"><input type="reset" id="bBorrar" value="Borrar" onclick="Borrar();"></center><br>
+
+
+<fieldset><legend><b>Resultado</b></legend>
+<center><div style="font-family:courier; font-size:12" id="divResultado">Introduce los datos</div>
+
+</fieldset>
+
+</form>

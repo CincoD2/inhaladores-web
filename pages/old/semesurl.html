@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	
+	
+	
+
+  </head>
+
+<body class="theme-1">
+
+			    
+    <html>
+    <head>
+        <meta http-equiv='Content-Type' content='text/html' charset='utf-8'/>
+        <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+        <script type='text/javascript'>
+           google.load('visualization','1', {'packages': ['geochart']});
+           google.setOnLoadCallback(drawRegionsMap);
+
+         function drawRegionsMap() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string','Country');
+          data.addColumn('number','Popularity');
+          
+          data.addRows([
+              [{f:'Islas Baleares', v:'ES-IB'},5], 
+              [{f:'Madrid', v:'ES-MD'},3], 
+              [{f:'Navarra', v:'ES-NC'},1], 
+              [{f:'Asturias', v:'ES-AS'},2], 
+              [{f:'Cantabria', v:'ES-CB'},1], 
+              [{f:'Andalucía', v:'ES-AN'},8], 
+              [{f:'Castilla-La Mancha', v:'ES-CM'},3], 
+              [{f:'Castilla y León', v:'ES-CL'},8], 
+              [{f:'Cataluña', v:'ES-CT'},1], 
+              [{f:'Galicia', v:'ES-GA'},2]
+                      ]);
+
+          var options = {
+              'title':'Map',
+              'width':550,
+              'height':400,
+              'region':'ES',
+              'resolution':'provinces'
+          };
+
+          var container = document.getElementById('map_canvas');
+          var geochart = new google.visualization.GeoChart(container);
+          geochart.draw(data, options);
+      };
+            google.visualization.events.addListener(chart, 'select', function() {
+                var selectedItem = chart.getSelection()[0];
+                if (selectedItem) {
+                    var region = data.getValue(selectedItem.row,0);
+                    console.log(region);
+                }
+            });
+      </script>
+    </head>
+
+    <body>
+      <div id='map_canvas'></div>
+  <!--  <form name="myWebForm" action="https://www.danielpinero.com/heatmap" method="get">
+        <input type="hidden" name="region" value="ES" />
+        <table>
+                           <tr><td>Islas Baleares:</td><td><input type="text" name="ES-IB" value="5" size="3"></td></tr>
+                           <tr><td>Madrid:</td><td><input type="text" name="ES-MD" value="3" size="3"></td></tr>
+                           <tr><td>Navarra:</td><td><input type="text" name="ES-NC" value="1" size="3"></td></tr>
+                           <tr><td>La Rioja:</td><td><input type="text" name="ES-RI" value="0" size="3"></td></tr>
+                           <tr><td>Asturias:</td><td><input type="text" name="ES-AS" value="2" size="3"></td></tr>
+                           <tr><td>Cantabria:</td><td><input type="text" name="ES-CB" value="1" size="3"></td></tr>
+                           <tr><td>Ceuta:</td><td><input type="text" name="ES-CE" value="0" size="3"></td></tr>
+                           <tr><td>Melilla:</td><td><input type="text" name="ES-ML" value="0" size="3"></td></tr>
+                           <tr><td>Canarias:</td><td><input type="text" name="ES-CN" value="0" size="3"></td></tr>
+                           <tr><td>Andalucía:</td><td><input type="text" name="ES-AN" value="8" size="3"></td></tr>
+                           <tr><td>Aragón:</td><td><input type="text" name="ES-AR" value="0" size="3"></td></tr>
+                           <tr><td>Castilla-La Mancha:</td><td><input type="text" name="ES-CM" value="3" size="3"></td></tr>
+                           <tr><td>Castilla y León:</td><td><input type="text" name="ES-CL" value="8" size="3"></td></tr>
+                           <tr><td>Cataluña:</td><td><input type="text" name="ES-CT" value="1" size="3"></td></tr>
+                           <tr><td>Extremadura:</td><td><input type="text" name="ES-EX" value="0" size="3"></td></tr>
+                           <tr><td>Galicia:</td><td><input type="text" name="ES-GA" value="2" size="3"></td></tr>
+                           <tr><td>Murcia:</td><td><input type="text" name="ES-MC" value="0" size="3"></td></tr>
+                           <tr><td>País Vasco:</td><td><input type="text" name="ES-PV" value="0" size="3"></td></tr>
+                           <tr><td>Valencia:</td><td><input type="text" name="ES-VC" value="0" size="3"></td></tr>
+                    </table>
+        <input type="submit" value="GET MAP" />
+    </form> -->
+    </body>
+
+    </html>
+				</body>
+
+		</html>
+

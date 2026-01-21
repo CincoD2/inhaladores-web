@@ -1,0 +1,97 @@
+<script>
+function analyze(form) {
+if (form.edad.value==0.1) {alert("!!!! Selecciona la edad ¡¡¡¡");}
+var T=0;
+var F=0;
+var R=0;
+
+F=form.edad.value;
+if (form.FRCV.checked){ T=T+1} 
+if (form.TA.checked){T=T+3}
+if (form.Kg.checked){T=T+1} 
+if (form.ST.checked){T=T+1} 
+if (form.K.checked){T=T+2}
+if (form.Fc.checked){T=T+2} 
+if (form.Tto.checked){T=T+1}
+
+R=parseInt(F)+parseInt(T);
+
+P="TIMI Risk Score para SCACEST: "+R+" puntos <br>";
+M="Riesgo de mortalidad global a los 30 días: ";
+divResultado0.innerHTML  =P;
+if (R==0) {divResultado.innerHTML  = M+"<strong>0.8 %</strong>"}
+if (R==1) {divResultado.innerHTML  = M+"<strong>1.6 %</strong>"}
+if (R==2) {divResultado.innerHTML  =M+"<strong>2.2 %</strong>"}
+if (R==3) {divResultado.innerHTML  =M+"<strong>4.4 %</strong>"}
+if (R==4)  {divResultado.innerHTML  =M+"<strong>7.3 %</strong>"}
+if (R==5) {divResultado.innerHTML  =M+"<strong>12.4 %</strong>"}
+if (R==6)  {divResultado.innerHTML  =M+"<strong>16.1 %</strong>"}
+if (R==7) {divResultado.innerHTML  =M+"<strong>23.4 %</strong>"}
+if (R==8) {divResultado.innerHTML  =M+"<strong>26.8 %</strong>"}
+if (R>=9){divResultado.innerHTML  =M+"<strong>35.9 %</strong>"}
+if (form.edad.value==0.1){divResultado.innerHTML  = "<strong>!!!! Selecciona la edad ¡¡¡¡</strong>"}
+}
+
+// -->
+
+</script>
+<h1><center>TIMI Risk Score (SCACEST)</center></h1>
+      
+  <div data-role="content" data-theme="d">
+   
+    
+ 
+
+
+<form>
+<fieldset><legend><strong>Edad</strong></legend>
+<input type="Radio" name="edad" onchange="analyze(form)" id="11" value=0 checked> <label for="11">&lt;65 años</label><br>
+<input type="Radio" name="edad" onchange="analyze(form)" id="11" value=2> <label for="11">65-74 años</label><br>
+<input type="Radio" name="edad" onchange="analyze(form)" id="11" value=3> <label for="11">&ge;75 años</label><br>
+</fieldset>
+<!--<select name="edad" onchange="analyze(form)" id="11" data-native-menu="false">
+<option value=0.1 selected>Edad
+<option value=0>&lt;65 años
+<option value=2>65-74  años
+<option value=3>≥75 años 
+
+</select>-->
+<fieldset><legend><strong>Hallazgos clínicos</strong></legend>
+     <input type="checkbox" name="FRCV" id="checkbox-1a" class="custom" onClick="analyze(form)"/>
+     <label for="checkbox-1a">DM, HTA o angina?</label><br>
+
+     <input type="checkbox" name="TA" id="checkbox-2a" class="custom" onClick="analyze(form)"/>
+     <label for="checkbox-2a">TA sistolica < 100 mmHg.</label><br>
+     
+     <input type="checkbox" name="Fc" id="checkbox-3a" class="custom" onClick="analyze(form)"/>
+     <label for="checkbox-3a">FC > 110 lpm.</label><br>
+
+     <input type="checkbox" name="K" id="checkbox-4a" class="custom" onClick="analyze(form)"/>
+     <label for="checkbox-4a">Killip II-IV</label><br>
+                    
+                     <input type="checkbox" name="Kg" id="checkbox-5a" class="custom" onClick="analyze(form)"/>
+     <label for="checkbox-5a">Peso < 67 kg</label><br>
+
+     <input type="checkbox" name="ST" id="checkbox-6a" class="custom" onClick="analyze(form)"/>
+     <label for="checkbox-6a">Elevación ST previa o BCRI</label><br>
+     
+     <input type="checkbox" name="Tto" id="checkbox-7a" class="custom" onClick="analyze(form)"/>
+     <label for="checkbox-7a">Retraso tratamiento > 4 h.</label><br>
+                     
+                    </fieldset>
+                    
+                    <fieldset ><legend><strong>Resultado</strong></legend>
+                    <div style="font-family:courier;font-size:12" id="divResultado0"></div>
+     <div style="font-family:courier;font-size:12" id="divResultado"></div>
+                  
+</fieldset>
+
+
+     
+                    <small><br><strong>Referencia: </strong><a href="http://circ.ahajournals.org/content/102/17/2031.full" rel="external">TIMI Risk Score for ST-Elevation Myocardial Infarction: A Convenient, Bedside, Clinical Score for Risk Assessment at Presentation</a></small></div>      
+  </div>
+
+  
+  </body>
+
+</form>

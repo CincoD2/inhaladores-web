@@ -1,0 +1,239 @@
+<table class="checklist">
+
+  <tr><! Fila 0 Título >
+
+    <td colspan="4"><span id="titulo" style="font-size: 16px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial"></span></td>
+  
+  </tr>
+
+
+<tr><! Fila 1 más de 75años >
+
+  <td><input type="checkbox" id="cbox0" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Hipertensión Arterial (TAS &gt; 160 mmHg)</span></td>
+
+</tr>
+
+<tr><! Fila 2  >
+
+  <td><input type="checkbox" id="cbox1" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Alteración de la Función Renal<br></span><span style="font-size: 10px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">(Diálisis, trasplante, Cr &gt; 2,26 mg/dL)</span></td>
+
+</tr>
+
+<tr><! Fila 3 Criterios Menores >
+
+    <td colspan="4"><span id="titulo" style="font-size: 16px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial"></span></td>
+  
+  </tr>
+
+<tr><! Fila 4  >
+
+  <td><input type="checkbox" id="cbox2" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Alteración de la Función Hepática<br></span><span style="font-size: 10px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">(Cirrosis, Br &gt; x2 del límite de la normalidad, AST/ALT/ALP &gt; x3 del límite de la normalidad)</span></td>
+
+</tr>
+
+<tr><! Fila 5  >
+
+  <td><input type="checkbox" id="cbox3" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">ACV isquémico o hemorrágico previo</span></td>
+
+</tr>
+
+<tr><! Fila 6  >
+
+  <td><input type="checkbox" id="cbox4" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Hemorragia mayor previa o predisposición<br></span><span style="font-size: 10px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">(Asociada o no a anemia o trombocitopenia severa)</span></td>
+
+</tr>
+
+
+
+<tr><! Fila 8  >
+
+  <td><input type="checkbox" id="cbox6" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">INR lábil<br></span><span style="font-size: 10px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">(menos del 60% del tiempo en rango terapéutico en pacientes con AVK)</span></td>
+
+</tr>
+
+<tr><! Fila 9  >
+
+  <td><input type="checkbox" id="cbox7" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Edad &gt; 65 años (o fragilidad extrema)</span></td>
+
+</tr>
+
+<tr><! Fila 10  >
+
+  <td><input type="checkbox" id="cbox8" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Medicación predisponente<br></span><span style="font-size: 10px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">(Antiagregantes, AINEs)</span></td>
+
+</tr>
+
+<tr><! Fila 11  >
+
+  <td><input type="checkbox" id="cbox9" value="1">
+
+  <td colspan="4"><span class="Texto_checkbox" style="font-size: 14px; font-style: normal; font-weight:normal; text-align:right;font-family: Arial">Alcoholismo activo</span></td>
+
+</tr>
+
+
+
+
+</table>
+
+<!--Tablacalcular-->
+
+<table class="tablacalcular">
+  <tr> 
+    <td colspan="4"><br><button id="calcular" style="font-size: 14px; font-style: normal; font-weight:bold; text-align:right;font-family: Arial">Calcular</button><br></td>
+    
+  </tr>
+</table>
+
+
+ <! DIV RESULTADO **************************************************************************>
+
+<div class="divresultado">
+
+<form action="">
+<br>
+<textarea cols=100 rows=15 id="resultadofinal"></textarea>
+
+</form>
+
+</div>
+<script>
+calcular.onclick = function(e){
+
+  var contador=0;
+  var texto_1='';
+  var resultadofinal_txt= '';
+  resultadofinal.value=""
+  
+
+  contador=0; //resetamos contador y texto
+  texto_1='';
+
+  // alert("el valor del contador es de ")
+
+  if (cbox0.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox0').value);
+    
+    resultadofinal.value="- Hipertensión Arterial (TAS > 160 mmHg)\n";
+  }
+
+  if (cbox1.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox1').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Alteración de la Función Renal\n";
+  }
+
+
+  if (cbox2.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox2').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Alteración de la Función Hepática\n";
+  }
+  
+  
+ if (cbox3.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox3').value);
+    
+    resultadofinal.value=resultadofinal.value +"- ACV isquémico o hemorrágico previo\n";
+  }
+
+
+ if (cbox4.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox4').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Hemorragia mayor previa o predisposición\n";
+  }
+  
+  
+
+  
+  
+   if (cbox6.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox6').value);
+    
+    resultadofinal.value=resultadofinal.value +"- INR lábil\n";
+  }
+  
+  
+   if (cbox7.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox7').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Edad > 65 años (o fragilidad extrema) \n";
+  }
+  
+  
+   if (cbox8.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox8').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Medicación predisponente \n";
+  }
+  
+  
+   if (cbox9.checked === true){ 
+  
+    contador = contador +  parseInt(document.getElementById('cbox9').value);
+    
+    resultadofinal.value=resultadofinal.value +"- Alcoholismo activo\n";
+  }
+
+   resultadofinal.value= resultadofinal.value + "____________________________________________\n";
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + " * Resultado HAS-BLED Score: " + contador ;
+resultadofinal.value= resultadofinal.value +"\n";
+resultadofinal.value= resultadofinal.value + "_____________________________________________\n";
+
+
+
+if (contador >= 3){
+    
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + "Riesgo Alto (Probabilidad de sangrado en un año entre el 4.9 y el 19.6 %)\n";
+   
+
+}  else if (contador == 2){
+    
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + "Riesgo Intermedio (Probabilidad de sangrado en un año entre 1.88 y 3.2 %)\n";
+    
+} else if (contador == 1){
+    
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + "Riesgo Bajo (Probabilidad de sangrado en un año entre el 1.02 y el 1.5 %)\n";
+    
+} else {
+    
+    resultadofinal.value= resultadofinal.value +"\n";
+
+    resultadofinal.value= resultadofinal.value + "Riesgo Muy bajo (Probabilidad de sangrado en un año menor del 1 %)\n";
+    
+}
+
+}
+</script>

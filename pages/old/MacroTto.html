@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depurador de Texto</title>
+    <style>
+        #textInput {
+            font-size: 14px;
+            font-style: normal;
+            text-align: left;
+            font-family: Arial;
+            width: 100%;
+            height: 200px;
+            /* Ajusta la altura según sea necesario */
+            box-sizing: border-box;
+            /* Incluye el padding y el borde en la medida total */
+            resize: none;
+            /* Evita que se pueda redimensionar el textarea */
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            /* Añade un borde al textarea de entrada */
+        }
+
+        #textoDepurado {
+            font-size: 14px;
+            font-style: normal;
+            text-align: left;
+            font-family: Arial;
+            width: 100%;
+            min-height: 200px;
+            /* Ajusta la altura mínima según sea necesario */
+            box-sizing: border-box;
+            /* Incluye el padding y el borde en la medida total */
+            border: 1px solid #ccc;
+            /* Añade un borde al div de texto depurado */
+            padding: 5px;
+            overflow-y: auto;
+            /* Agrega scroll vertical si el contenido es demasiado largo */
+            white-space: pre-line;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+
+        #checkboxLabel {
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Depurador de Texto</h1>
+    <textarea id="textInput" placeholder="Pegue su texto aquí"></textarea>
+    <input type="checkbox" id="checkboxSustitucion">
+    <label for="checkboxSustitucion" id="checkboxLabel">Varias líneas</label> <!-- Nuevo checkbox -->
+    <br>
+    <button onclick="depurarTexto()">Depurar texto</button>
+    <button onclick="limpiarTexto()">Limpiar texto</button>
+    <h2>Texto depurado:</h2>
+    <div id="textoDepurado" contenteditable="true"></div> <!-- Cambiado a un div editable -->
+    <button onclick="copiarTexto()">Copiar texto</button>
+
+    <script>
+        function depurarTexto() {
+            // Obtener el texto del formulario
+            var texto = document.getElementById("textInput").value;
+
+            // Obtener el estado del checkbox
+            var sustituirSaltoLinea = document.getElementById("checkboxSustitucion").checked;
+
+            // Llamar a la función para depurar el texto
+            var textoDepurado = depurar(texto, sustituirSaltoLinea);
+
+            // Mostrar el texto depurado en el área designada
+            document.getElementById("textoDepurado").innerHTML = textoDepurado;
+        }
+
+        function depurar(texto, sustituirSaltoLinea) {
+            // Diccionario de palabras o frases a reemplazar
+            var fechaActual = new Date().toLocaleDateString('es-ES');
+            
+            var diccionario = {
+                "SUSP PARA INHALAC EN ENVASE A PRESION": "",
+                "\\d+ COMPRIMIDOS RECUBIERTOS CON PELICULA": "", // "\\d+" representa uno o más dígitos
+                "\\d+ COMPRIMIDOS DE LIBERACION MODIFICADA": "",
+                "\\d+ COMPRIMIDOS DE LIBERACION PROLONGADA": "",
+                "\\d+ COMPR RECUB": "",
+                "\\d+ SOBRES POLVO PARA SUSPENSION ORAL": "",
+                "\\d+ AMPOLLAS \\d+ML": "",
+                "\\d+ JERINGA PRECARGADA \\d+ML SOLUCION INYECTABLE": "",
+                "\\d+ COMPRIMIDOS RECUBIER RANU": "",
+                "300 UNIDADES/ML 3 PLUMAS PRECARGADAS 1,5ML SOLUCION INYECT": "",
+                "4 PLUMAS PRECARGADAS SOLUCION INYECTABLE": "",
+                 "\\(\\d+ INHALACIONES\\)": "",
+                "\\d+ UNIDADES/ML \\d+ PLUMAS RECARG \\d+ML SOLUC INYEC": "",
+                "\\d+ PARCHES TRANSDERMICOS": "",
+                "\\d+ INHAL": "",
+                "\\d+ INH \\d+ DOSIS POLVO INHALACION \\(UNIDOSIS\\)": "",
+                "20 CAPSULAS": "",
+                "28cp": "",
+                "30cp": "",
+                "60cp": "",
+                "40cp": "",
+                "100cp": "",
+                "56cp": "",
+                "20cp": "",
+                "50cp": "",
+                "90cp": "",
+                "ASPOL": "",
+                "\\d+JER PRECARGADA \\d+ML SOLUCION INYECTABLE": "",
+                "\\d+ JER PRECARGADA 0,5ML": "",
+                "EN \\d+ ML \\d+ AMPOLLAS DE \\d+ML": "",
+                "/G ": "/g ",
+                "/H ": "/h ",
+                "EN \\d+ ML \\d+ COLIRIO DE \\d+ML": "",
+                "\\d+MG LIBERACION PROLONGADA": "",
+                "\\d+ COM BUCODI EFG": "",
+                "\\d+ COMPRIMIDOS EFG": "",
+                "\\d+ COMPRIMIDOS": "",
+                "\\d+ FRASCO DE \\d+ML SOLUCION ORAL": "",
+                // "DOSIS POLVO PARA INHALAC": "",
+                "\\d+ DOSIS POLVO PARA INHALAC \\(UNIDOSIS\\)": "",
+                "\\d+ INHALAD \\d+ DOSIS POLVO PARA INHAL\\(UNIDOSIS\\)": "",
+                // "\\(UNIDOSIS\\)": "",
+                "LIBERACION PROLONGADA": "",
+                "\\d+ DOSIS SUSP INH ENV  PRES EFG": "",
+               
+                "SOLUCION INYECTABLE EN JERINGA PRECARGADA, ": "",
+                "\\d+ JERINGAS PRECARGADAS DE ": "",
+                "JERINGA PRECARGADA": "iny",
+                "MICROGRAMOS": "mcg",
+                "COMPRIMIDOS": "cp",
+                "COMPRIMIDO": "cp",
+                "CRÓNICO": "",
+                "SANDOZ": "",
+                "ALDO-UNION": "",
+                "/DOSIS": "/dosis",
+                 "ALTER": "",
+                "RATIOPHARM": "",
+                "ALMUS": "",
+                "DAVUR": "",
+                "EN 1 ML 5 AMPOLLAS DE 1 ML": "",
+                "EFG": "",
+                "MG/": "mg/",
+                " MG": "mg",
+                " MCG": "mcg",
+                "MCG": "mcg",
+                "MG ": "mg ",
+                "MCG ": "mcg ",
+                "ML ": "mL ",
+                " ML": "mL",
+                "cada día": "diarios",
+                " horas": "h",
+                "AMPOLLAS": "amp",
+                "AMPOLLA": "amp",
+                "RECUBIERTOS": "",
+                " / ": "",
+                " PULSACION": "inh",
+                " iny": "iny",
+                " cada ": "/",
+                "MEDIO": "1/2",
+                " día/s": "d",
+                " PARCHE TRANSDERMICO": " parche",
+                "CON PELICULA ": "",
+                " CAPSULAS": "cp",
+                " CAPSULA": "cp",
+                " GOTAS ORALES": " gotas",
+                " cp": "cp",
+                " SOLUCION INYECTABLE": "",
+                "RANURADOS": "",
+                "LIBERACION": "",
+                "30 SOBRES": "",
+                "SOLUCION ORAL EN SOBRE": "",
+                "SOBRES": "sobres",
+                " amp BEBIBLE/": " amp/",
+                "SOBRE": "sobre",
+                " RANU ": "",
+                 "TABLETA": "cp",
+                " RECUBIER ": "",
+                "DURAS": "",
+                "SANOFI": "",
+                "\\(NOVARTIS\\)": "",
+                 "\\(LILLY\\)": "",
+                "SOLOSTAR": "",
+                 "GOTA OFTALMICA": "gota",
+                "EFERVESCENTES": "",
+                "EFERVESCENTE": "",
+                "MASTICABLES": "",
+                "MASTICABLE": "",
+                "BUCODISPERSABLES": "",
+                "BUCODISPERSABLE": "",
+                "VIATRIS": "",
+                "ALMIRALL": "",
+                "GASTRORRESISTENTES": "",
+                 "BUCODISPERS": "",
+                "mg\\d+ SOBRES": "",
+                "CON PELICULA": "",
+                " PULVERIZACION": "inh",
+                " CARTUCHO/PLUMA": "iny",
+                "NASAL": "",
+                "PRESION": "",
+                "POMADA": "",
+                "MODIFICADA": "",
+                "SOLUCION CUTANEA": "",
+                "1 FRASCO 200ML JARABE": "",
+                "1 FRASCO 10ML GOTAS ORALES EN SOLUCION ": "",
+                "FRASCO 40ML SOLUCION ORAL ": "",
+                "1 FRASCO": "",
+                "EN SOLUCION": "",
+                "SOLUCION INYECTABLE EN UNA JERINGA": "",
+                "EN 5ML 6 AMPOLLAS DE 5 ML": "",
+                "1 INHAL 200 DOSIS SUSP INHALAC ENV A": "",
+                "BLISTER PVC/PVDC-ALUMINIO": "",
+                "RECUBIERTOS CON PELICULA": "",
+                "\\(\\)": "",
+                "1cp diarios": "1cp diario",
+
+                "durante \\d+ días": ""
+                // Puedes añadir más palabras o frases aquí según tus necesidades
+            };
+
+            // Aplicar las sustituciones del diccionario varias veces
+            var numVeces = 5; // Número de veces que se aplicarán las sustituciones
+            for (var n = 0; n < numVeces; n++) {
+                for (var clave in diccionario) {
+                    var expresion = new RegExp(clave, "g");
+                    texto = texto.replace(expresion, diccionario[clave]);
+                }
+            }
+
+            // Reemplazar la cadena "Posología/Observaciones: " por "" y eliminar las líneas que empiezan por "Profesional", "Fecha inicio" y "Fecha fin"
+            // También eliminar dos saltos de línea por un único ";"
+            var lineas = texto.split("\n");
+            var lineasModificadas = [];
+            for (var i = 0; i < lineas.length; i++) {
+                if (lineas[i].startsWith("Terapia/Medicamento:") && lineas[i + 1].startsWith("Posología/Observaciones:")) {
+                    // Si la línea actual es "Terapia/Medicamento:" y la siguiente es "Posología/Observaciones:", unir ambas líneas sin salto de línea y mantener la línea "Posología/Observaciones" entre paréntesis
+                    lineasModificadas.push(lineas[i] + " (" + lineas[i + 1].replace("Posología/Observaciones: ", "") + ")");
+                    i++; // Saltar la siguiente línea ya que ya se ha incluido
+                } else if (lineas[i].startsWith("Posología/Observaciones")) {
+                    // Reemplazar la línea "Posología/Observaciones" por "(Posología/Observaciones)"
+                    lineasModificadas.push("(" + lineas[i].replace("Posología/Observaciones: ", "") + ")");
+                } else {
+                    // Mantener las otras líneas sin cambios
+                    lineasModificadas.push(lineas[i]);
+                }
+            }
+
+            var lineasFiltradas = lineasModificadas.filter(function(linea) {
+                return !linea.startsWith("Profesional") &&
+                    !linea.startsWith("Fecha inicio") &&
+                    !linea.startsWith("Fecha fin");
+            });
+
+            // Eliminar dos saltos de línea por un único ";"
+            texto = lineasFiltradas.join("; ").replace(/\n\n/g, "; ");
+
+            // Reemplazar "; ; " por "; "
+            texto = texto.replace(/; ; /g, "; ");
+
+            // Eliminar las palabras "Terapia/Medicamento:" manteniendo el resto de la línea
+            texto = texto.replace(/Terapia\/Medicamento:/g, "");
+
+            // Eliminar dos o más espacios consecutivos y reemplazarlos por un único espacio
+            texto = texto.replace(/ {2,}/g, " ");
+
+            // Eliminar espacios delante del signo de cierre de paréntesis
+            texto = texto.replace(/ \)/g, ")");
+
+            // Añadir "Tratamiento crónico: " al principio del texto
+            if (sustituirSaltoLinea) {
+                texto = "Tratamiento crónico (por SIA a fecha " + fechaActual + "):\n" + texto;
+            } else {
+                texto = "Tratamiento crónico (por SIA a fecha " + fechaActual + "):" + texto;
+            }
+
+            // Si el checkbox está activado, reemplazar ";" por un salto de línea
+            if (sustituirSaltoLinea) {
+                texto = texto.replace(/; /g, "\n");
+                texto = texto.replace("\n\n", "\n");
+            }
+
+            return texto;
+        }
+
+        function limpiarTexto() {
+            // Limpiar el cuadro de texto de entrada
+            document.getElementById("textInput").value = "";
+        }
+
+        function copiarTexto() {
+            // Seleccionar el texto depurado
+            var textoDepurado = document.getElementById("textoDepurado");
+
+            // Crear un rango de selección
+            var range = document.createRange();
+            range.selectNodeContents(textoDepurado);
+
+            // Seleccionar el contenido del rango
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Copiar el texto seleccionado al portapapeles
+            document.execCommand("copy");
+
+            // Desseleccionar el texto
+            selection.removeAllRanges();
+        }
+
+    </script>
+</body>
+
+</html>

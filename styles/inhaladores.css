@@ -253,6 +253,20 @@
   transition: width 0.2s ease;
 }
 
+.barra-carga-ind .barra-carga-progreso {
+  width: 40%;
+  animation: carga 1.2s ease-in-out infinite;
+}
+
+@keyframes carga {
+  0% {
+    transform: translateX(-60%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
+}
+
 .barra-carga-texto {
   margin-top: 6px;
   font-size: 12px;

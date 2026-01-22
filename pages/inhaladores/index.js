@@ -65,6 +65,7 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [hasTotal, setHasTotal] = useState(false);
 
   // Paginación
   const PAGE_SIZE = 30;
@@ -117,6 +118,7 @@ export default function Home() {
       try {
         const res = await fetch(CSV_URL, { signal: controller.signal });
         const total = Number(res.headers.get('Content-Length') || 0);
+        if (!cancelled) setHasTotal(total > 0);
         const reader = res.body?.getReader();
         if (!reader) throw new Error('No se pudo leer el stream');
 
@@ -272,13 +274,16 @@ export default function Home() {
       <main style={{ padding: 24 }}>
         <div className="cargando-wrapper">
           <p>Cargando inhaladores…</p>
-          <div className="barra-carga" aria-label="Cargando">
+          <div
+            className={`barra-carga ${hasTotal ? '' : 'barra-carga-ind'}`}
+            aria-label="Cargando"
+          >
           <div
             className="barra-carga-progreso"
             style={{ width: `${progress}%` }}
           />
           </div>
-          {progress ? (
+          {hasTotal && progress ? (
             <div className="barra-carga-texto">{progress}%</div>
           ) : null}
         </div>

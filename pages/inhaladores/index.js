@@ -64,6 +64,7 @@ export default function Home() {
   const [sortDir, setSortDir] = useState('asc'); // 'asc' | 'desc'
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   // Paginación
   const PAGE_SIZE = 30;
@@ -109,19 +110,58 @@ export default function Home() {
   }
   /* ===== CARGA CSV ===== */
   useEffect(() => {
-    Papa.parse(CSV_URL, {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        setData(results.data || []);
-        setLoading(false);
-      },
-      error: (err) => {
+    let cancelled = false;
+    const controller = new AbortController();
+
+    async function cargarCSV() {
+      try {
+        const res = await fetch(CSV_URL, { signal: controller.signal });
+        const total = Number(res.headers.get('Content-Length') || 0);
+        const reader = res.body?.getReader();
+        if (!reader) throw new Error('No se pudo leer el stream');
+
+        const decoder = new TextDecoder();
+        let textoCSV = '';
+        let loaded = 0;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          loaded += value.length;
+          textoCSV += decoder.decode(value, { stream: true });
+          if (total) {
+            const pct = Math.min(100, Math.round((loaded / total) * 100));
+            if (!cancelled) setProgress(pct);
+          }
+        }
+        textoCSV += decoder.decode();
+        if (!cancelled && total) setProgress(100);
+
+        Papa.parse(textoCSV, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            if (cancelled) return;
+            setData(results.data || []);
+            setLoading(false);
+          },
+          error: (err) => {
+            console.error('Error parseando CSV:', err);
+            if (!cancelled) setLoading(false);
+          },
+        });
+      } catch (err) {
+        if (cancelled) return;
         console.error('Error cargando CSV:', err);
         setLoading(false);
-      },
-    });
+      }
+    }
+
+    cargarCSV();
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
   }, []);
 
   /* ===== FILTRO + ORDEN ===== */
@@ -227,7 +267,24 @@ export default function Home() {
   }, [filteredAndSortedData, page]);
 
   /* ===== ESTADOS ===== */
-  if (loading) return <p>Cargando inhaladores…</p>;
+  if (loading) {
+    return (
+      <main style={{ padding: 24 }}>
+        <div className="cargando-wrapper">
+          <p>Cargando inhaladores…</p>
+          <div className="barra-carga" aria-label="Cargando">
+          <div
+            className="barra-carga-progreso"
+            style={{ width: `${progress}%` }}
+          />
+          </div>
+          {progress ? (
+            <div className="barra-carga-texto">{progress}%</div>
+          ) : null}
+        </div>
+      </main>
+    );
+  }
   if (!data.length) return <p>No se han cargado datos</p>;
 
   /* ===== RENDER ===== */

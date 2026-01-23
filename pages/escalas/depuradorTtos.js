@@ -1,5 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import InformeCopiable from "@/components/InformeCopiable";
+import Papa from "papaparse";
+
+/* Añado el estado para reglas y la URL del csv */
+
+const REGLAS_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-HP_OCXjtFN6cCrpBgViv59ufFzUBerAK5jvTSLoT27zC_ux_3YTpX4oQcmCNIZg7blWaBANXtUkF/pub?output=csv";
+
+/* Carga las reglas al montar */
 
 export default function DepuradorTtos() {
   const [texto, setTexto] = useState("");
@@ -7,11 +15,65 @@ export default function DepuradorTtos() {
   const [resultado, setResultado] = useState("");
   const [medicamentos, setMedicamentos] = useState([]);
   const [seleccion, setSeleccion] = useState({});
-
+  const [reglas, setReglas] = useState([]); // [{ patron, reemplazo, tipo, flags }]
+  const [reglasListas, setReglasListas] = useState(false);
   const textoDepurado = useMemo(() => {
     if (!resultado) return "";
     return resultado;
   }, [resultado]);
+
+  useEffect(() => {
+    Papa.parse(REGLAS_URL, {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        const rows = (results.data || [])
+          .map((r) => ({
+            patron: (r.patron || "").trim(),
+            reemplazo: (r.reemplazo ?? "").toString(),
+            tipo: (r.tipo || "regex").trim().toLowerCase(), // "regex" | "literal"
+            flags: (r.flags || "g").trim(), // "g" | "gi" etc
+          }))
+          .filter((r) => r.patron);
+
+        setReglas(rows);
+        setReglasListas(true);
+      },
+      error: (err) => {
+        console.error("Error cargando reglas:", err);
+        setReglas([]);
+        setReglasListas(true); // para no bloquear
+      },
+    });
+  }, []);
+
+  /* Compila las reglas a RegExp (para rendimiento y control) */
+
+  const reglasCompiladas = useMemo(() => {
+    return reglas
+      .map((r) => {
+        try {
+          if (r.tipo === "literal") {
+            // escapar literal para que no sea regex
+            const escaped = r.patron.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            return {
+              re: new RegExp(escaped, r.flags || "g"),
+              reemplazo: r.reemplazo,
+            };
+          }
+          // regex
+          return {
+            re: new RegExp(r.patron, r.flags || "g"),
+            reemplazo: r.reemplazo,
+          };
+        } catch (e) {
+          console.warn("Regla inválida, se omite:", r, e);
+          return null;
+        }
+      })
+      .filter(Boolean);
+  }, [reglas]);
 
   function extraerMedicamentos(textoOriginal) {
     const lineas = textoOriginal.split("\n");
@@ -47,153 +109,8 @@ export default function DepuradorTtos() {
   function depurar(textoOriginal, sustituirSaltoLinea) {
     const fechaActual = new Date().toLocaleDateString("es-ES");
     let textoProcesado = textoOriginal;
-
-    const diccionario = {
-      "SUSP PARA INHALAC EN ENVASE A PRESION": "",
-      "\\d+ COMPRIMIDOS RECUBIERTOS CON PELICULA": "",
-      "\\d+ COMPRIMIDOS DE LIBERACION MODIFICADA": "",
-      "\\d+ COMPRIMIDOS DE LIBERACION PROLONGADA": "",
-      "\\d+ COMPR RECUB": "",
-      "\\d+ SOBRES POLVO PARA SUSPENSION ORAL": "",
-      "\\d+ AMPOLLAS \\d+ML": "",
-      "\\d+ JERINGA PRECARGADA \\d+ML SOLUCION INYECTABLE": "",
-      "\\d+ COMPRIMIDOS RECUBIER RANU": "",
-      "300 UNIDADES/ML 3 PLUMAS PRECARGADAS 1,5ML SOLUCION INYECT": "",
-      "4 PLUMAS PRECARGADAS SOLUCION INYECTABLE": "",
-      "\\(\\d+ INHALACIONES\\)": "",
-      "\\d+ UNIDADES/ML \\d+ PLUMAS RECARG \\d+ML SOLUC INYEC": "",
-      "\\d+ PARCHES TRANSDERMICOS": "",
-      "\\d+ INHAL": "",
-      "\\d+ INH \\d+ DOSIS POLVO INHALACION \\(UNIDOSIS\\)": "",
-      "20 CAPSULAS": "",
-      "28cp": "",
-      "30cp": "",
-      "60cp": "",
-      "40cp": "",
-      "100cp": "",
-      "56cp": "",
-      "20cp": "",
-      "50cp": "",
-      "90cp": "",
-      ASPOL: "",
-      "\\d+JER PRECARGADA \\d+ML SOLUCION INYECTABLE": "",
-      "\\d+ JER PRECARGADA 0,5ML": "",
-      "EN \\d+ ML \\d+ AMPOLLAS DE \\d+ML": "",
-      "/G ": "/g ",
-      "/H ": "/h ",
-      "EN \\d+ ML \\d+ COLIRIO DE \\d+ML": "",
-      "\\d+MG LIBERACION PROLONGADA": "",
-      "\\d+ COM BUCODI EFG": "",
-      "\\d+ COMPRIMIDOS EFG": "",
-      "\\d+ COMPRIMIDOS": "",
-      "\\d+ FRASCO DE \\d+ML SOLUCION ORAL": "",
-      "\\d+ DOSIS POLVO PARA INHALAC \\(UNIDOSIS\\)": "",
-      "\\d+ INHALAD \\d+ DOSIS POLVO PARA INHAL\\(UNIDOSIS\\)": "",
-      "LIBERACION PROLONGADA": "",
-      "\\d+ DOSIS SUSP INH ENV  PRES EFG": "",
-      "SOLUCION INYECTABLE EN JERINGA PRECARGADA, ": "",
-      "\\d+ JERINGAS PRECARGADAS DE ": "",
-      "JERINGA PRECARGADA": "iny",
-      MICROGRAMOS: "mcg",
-      COMPRIMIDOS: "cp",
-      COMPRIMIDO: "cp",
-      CRÓNICO: "",
-      SANDOZ: "",
-      "ALDO-UNION": "",
-      "/DOSIS": "/dosis",
-      ALTER: "",
-      RATIOPHARM: "",
-      ALMUS: "",
-      DAVUR: "",
-      "EN 1 ML 5 AMPOLLAS DE 1 ML": "",
-      EFG: "",
-      "MG/": "mg/",
-      " MG": "mg",
-      " MCG": "mcg",
-      MCG: "mcg",
-      "MG ": "mg ",
-      "MCG ": "mcg ",
-      "ML ": "mL ",
-      " ML": "mL",
-      "cada día": "diarios",
-      " horas": "h",
-      AMPOLLAS: "amp",
-      AMPOLLA: "amp",
-      RECUBIERTOS: "",
-      " / ": "",
-      " PULSACION": "inh",
-      " iny": "iny",
-      " cada ": "/",
-      MEDIO: "1/2",
-      " día/s": "d",
-      " PARCHE TRANSDERMICO": " parche",
-      "CON PELICULA ": "",
-      " CAPSULAS": "cp",
-      " CAPSULA": "cp",
-      " GOTAS ORALES": " gotas",
-      " cp": "cp",
-      " SOLUCION INYECTABLE": "",
-      RANURADOS: "",
-      LIBERACION: "",
-      "30 SOBRES": "",
-      "SOLUCION ORAL EN SOBRE": "",
-      SOBRES: "sobres",
-      " amp BEBIBLE/": " amp/",
-      SOBRE: "sobre",
-      " RANU ": "",
-      TABLETA: "cp",
-      " RECUBIER ": "",
-      DURAS: "",
-      SANOFI: "",
-      "\\(NOVARTIS\\)": "",
-      "\\(LILLY\\)": "",
-      SOLOSTAR: "",
-      "GOTA OFTALMICA": "gota",
-      EFERVESCENTES: "",
-      EFERVESCENTE: "",
-      MASTICABLES: "",
-      MASTICABLE: "",
-      BUCODISPERSABLES: "",
-      BUCODISPERSABLE: "",
-      VIATRIS: "",
-      ALMIRALL: "",
-      GASTRORRESISTENTES: "",
-      GASTRORRESIST: "",
-      BUCODISPERS: "",
-      "mg\\d+ SOBRES": "",
-      "CON PELICULA": "",
-      " PULVERIZACION": "inh",
-      " CARTUCHO/PLUMA": "iny",
-      NASAL: "",
-      PRESION: "",
-      POMADA: "",
-      MODIFICADA: "",
-      "30 COMPR LIBERAC PROLON REC PEL": "",
-      "SOLUCION CUTANEA": "",
-      "1 FRASCO 200ML JARABE": "",
-      "1 FRASCO 10ML GOTAS ORALES EN SOLUCION ": "",
-      "FRASCO 40ML SOLUCION ORAL ": "",
-      "1 FRASCO": "",
-      "EN SOLUCION": "",
-      "SOLUCION INYECTABLE EN UNA JERINGA": "",
-      "EN 5ML 6 AMPOLLAS DE 5 ML": "",
-      "1 INHAL 200 DOSIS SUSP INHALAC ENV A": "",
-      "BLISTER PVC/PVDC-ALUMINIO": "",
-      "RECUBIERTOS CON PELICULA": "",
-      "\\(\\)": "",
-      "1cp diarios": "1cp diario",
-      "durante \\d+ días": "",
-    };
-
-    const numVeces = 5;
-    for (let n = 0; n < numVeces; n += 1) {
-      Object.keys(diccionario).forEach((clave) => {
-        const expresion = new RegExp(clave, "g");
-        textoProcesado = textoProcesado.replace(expresion, diccionario[clave]);
-      });
-    }
-
     const lineas = textoProcesado.split("\n");
+
     const lineasModificadas = [];
     for (let i = 0; i < lineas.length; i += 1) {
       if (
@@ -245,6 +162,12 @@ export default function DepuradorTtos() {
         })
         .join("\n");
     }
+    const numVeces = 5;
+    for (let n = 0; n < numVeces; n += 1) {
+      for (const regla of reglasCompiladas) {
+        textoProcesado = textoProcesado.replace(regla.re, regla.reemplazo);
+      }
+    }
 
     return textoProcesado;
   }
@@ -284,9 +207,12 @@ export default function DepuradorTtos() {
   }, [texto]);
 
   useEffect(() => {
+    if (!reglasListas) return;
     if (!texto || !texto.trim()) return;
     onDepurar(texto, variasLineas);
-  }, [seleccion, texto, variasLineas]);
+  }, [seleccion, texto, variasLineas, reglasListas, reglasCompiladas]);
+
+  if (!reglasListas) return <p>Cargando reglas…</p>;
 
   return (
     <main className="escala-wrapper" style={{ padding: 24 }}>

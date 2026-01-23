@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
-import Papa from "papaparse";
+import { useEffect, useMemo, useState } from 'react';
+import Papa from 'papaparse';
 
 const CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRk7eftV0jKqjyLSf0nlVdheLthzEe6YnLH7UfKoKz_8rO0egB7imlswiymtLSRFhUFTv-XA-emUJyT/pub?gid=1829034177&single=true&output=csv";
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRk7eftV0jKqjyLSf0nlVdheLthzEe6YnLH7UfKoKz_8rO0egB7imlswiymtLSRFhUFTv-XA-emUJyT/pub?gid=1829034177&single=true&output=csv';
 
 /* =========================
    UTILIDADES
@@ -15,8 +15,8 @@ function useIsMobile(breakpoint = 768) {
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= breakpoint);
     check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, [breakpoint]);
 
   return isMobile;
@@ -24,23 +24,23 @@ function useIsMobile(breakpoint = 768) {
 
 // Tipo Título
 function toTitleCase(text) {
-  if (!text) return "";
+  if (!text) return '';
   return text
     .toLowerCase()
-    .split(" ")
+    .split(' ')
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+    .join(' ');
 }
 
 // Formato del nombre
 function formatearNombre(nombre) {
-  if (!nombre) return { marca: "", resto: "", completo: "" };
+  if (!nombre) return { marca: '', resto: '', completo: '' };
 
   const original = nombre.trim();
   const match = original.match(/\d/);
 
   let marca = original;
-  let resto = "";
+  let resto = '';
 
   if (match) {
     const i = match.index;
@@ -49,7 +49,7 @@ function formatearNombre(nombre) {
   }
 
   marca = marca.toUpperCase();
-  resto = resto.replace(/microgramos/gi, "mcg").toLowerCase();
+  resto = resto.replace(/microgramos/gi, 'mcg').toLowerCase();
 
   return { marca, resto, completo: original };
 }
@@ -60,19 +60,21 @@ function formatearNombre(nombre) {
 
 export default function Home() {
   const isMobile = useIsMobile();
-  const [sortBy, setSortBy] = useState("nombre");
-  const [sortDir, setSortDir] = useState("asc"); // 'asc' | 'desc'
+  const [sortBy, setSortBy] = useState('nombre');
+  const [sortDir, setSortDir] = useState('asc'); // 'asc' | 'desc'
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [hasTotal, setHasTotal] = useState(false);
 
   // Paginación
   const PAGE_SIZE = 30;
   const [page, setPage] = useState(1);
 
   // Filtros
-  const [search, setSearch] = useState("");
-  const [fTipoTratamiento, setFTipoTratamiento] = useState("");
-  const [fTipoInhalador, setFTipoInhalador] = useState("");
+  const [search, setSearch] = useState('');
+  const [fTipoTratamiento, setFTipoTratamiento] = useState('');
+  const [fTipoInhalador, setFTipoInhalador] = useState('');
   const [fAsma, setFAsma] = useState(false);
   const [fEpoc, setFEpoc] = useState(false);
   const [fClases, setFClases] = useState({
@@ -84,9 +86,9 @@ export default function Home() {
   });
 
   function resetFiltros() {
-    setSearch("");
-    setFTipoTratamiento("");
-    setFTipoInhalador("");
+    setSearch('');
+    setFTipoTratamiento('');
+    setFTipoInhalador('');
     setFAsma(false);
     setFEpoc(false);
     setFClases({
@@ -101,27 +103,67 @@ export default function Home() {
   /* ====== Función para manejar el clic en cabeceras ===== */
   function onSort(col) {
     if (sortBy === col) {
-      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
     } else {
       setSortBy(col);
-      setSortDir("asc");
+      setSortDir('asc');
     }
   }
   /* ===== CARGA CSV ===== */
   useEffect(() => {
-    Papa.parse(CSV_URL, {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        setData(results.data || []);
+    let cancelled = false;
+    const controller = new AbortController();
+
+    async function cargarCSV() {
+      try {
+        const res = await fetch(CSV_URL, { signal: controller.signal });
+        const total = Number(res.headers.get('Content-Length') || 0);
+        if (!cancelled) setHasTotal(total > 0);
+        const reader = res.body?.getReader();
+        if (!reader) throw new Error('No se pudo leer el stream');
+
+        const decoder = new TextDecoder();
+        let textoCSV = '';
+        let loaded = 0;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          loaded += value.length;
+          textoCSV += decoder.decode(value, { stream: true });
+          if (total) {
+            const pct = Math.min(100, Math.round((loaded / total) * 100));
+            if (!cancelled) setProgress(pct);
+          }
+        }
+        textoCSV += decoder.decode();
+        if (!cancelled && total) setProgress(100);
+
+        Papa.parse(textoCSV, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            if (cancelled) return;
+            setData(results.data || []);
+            setLoading(false);
+          },
+          error: (err) => {
+            console.error('Error parseando CSV:', err);
+            if (!cancelled) setLoading(false);
+          },
+        });
+      } catch (err) {
+        if (cancelled) return;
+        console.error('Error cargando CSV:', err);
         setLoading(false);
-      },
-      error: (err) => {
-        console.error("Error cargando CSV:", err);
-        setLoading(false);
-      },
-    });
+      }
+    }
+
+    cargarCSV();
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
   }, []);
 
   /* ===== FILTRO + ORDEN ===== */
@@ -129,61 +171,59 @@ export default function Home() {
     return [...data]
       .filter((d) => {
         if (!d) return false;
+        if (!d['POSOLOGIA_FT_4_2_URL']) return false;
 
         /* ===== BUSCADOR TEXTO LIBRE ===== */
         if (search) {
           const texto = search.toLowerCase();
+          const campos = [
+            d.nombre,
+            d.vtm,
+            d.DISPOSITIVO,
+            d.DISPOSITIVO_INHALACION,
+            d.TIPO_TRATAMIENTO,
+            d.labcomercializador,
+            d['ASMA (FT 4.1)'] === 'Sí' ? 'Asma' : '',
+            d['EPOC (FT 4.1)'] === 'Sí' ? 'EPOC' : '',
+          ];
 
-          const hayCoincidencia = Object.values(d)
-            .join(" ")
-            .toLowerCase()
-            .includes(texto);
+          const hayCoincidencia = campos.filter(Boolean).join(' ').toLowerCase().includes(texto);
 
           if (!hayCoincidencia) return false;
         }
 
-        if (fTipoTratamiento && d["TIPO_TRATAMIENTO"] !== fTipoTratamiento) {
+        if (fTipoTratamiento && d['TIPO_TRATAMIENTO'] !== fTipoTratamiento) {
           return false;
         }
 
-        if (fTipoInhalador && d["DISPOSITIVO_INHALACION"] !== fTipoInhalador) {
+        if (fTipoInhalador && d['DISPOSITIVO_INHALACION'] !== fTipoInhalador) {
           return false;
         }
 
         if (fAsma || fEpoc) {
-          const okAsma = fAsma && d["ASMA (FT 4.1)"] === "Sí";
-          const okEpoc = fEpoc && d["EPOC (FT 4.1)"] === "Sí";
+          const okAsma = fAsma && d['ASMA (FT 4.1)'] === 'Sí';
+          const okEpoc = fEpoc && d['EPOC (FT 4.1)'] === 'Sí';
           if (!okAsma && !okEpoc) return false;
         }
 
         for (const c in fClases) {
-          if (fClases[c] && d[c] !== "Sí") return false;
+          if (fClases[c] && d[c] !== 'Sí') return false;
         }
 
         return true;
       })
       .sort((a, b) => {
-        const valA = (a?.[sortBy] || "").toString();
-        const valB = (b?.[sortBy] || "").toString();
+        const valA = (a?.[sortBy] || '').toString();
+        const valB = (b?.[sortBy] || '').toString();
 
-        const cmp = valA.localeCompare(valB, "es", {
-          sensitivity: "base",
+        const cmp = valA.localeCompare(valB, 'es', {
+          sensitivity: 'base',
           numeric: true,
         });
 
-        return sortDir === "asc" ? cmp : -cmp;
+        return sortDir === 'asc' ? cmp : -cmp;
       });
-  }, [
-    data,
-    search,
-    fTipoTratamiento,
-    fTipoInhalador,
-    fAsma,
-    fEpoc,
-    fClases,
-    sortBy,
-    sortDir,
-  ]);
+  }, [data, search, fTipoTratamiento, fTipoInhalador, fAsma, fEpoc, fClases, sortBy, sortDir]);
 
   /* ===== RESET PÁGINA AL CAMBIAR FILTROS ===== */
   useEffect(() => {
@@ -202,7 +242,7 @@ export default function Home() {
     pages.push(1);
 
     if (current > 3) {
-      pages.push("...");
+      pages.push('...');
     }
 
     for (let i = current - 1; i <= current + 1; i++) {
@@ -212,7 +252,7 @@ export default function Home() {
     }
 
     if (current < total - 2) {
-      pages.push("...");
+      pages.push('...');
     }
 
     pages.push(total);
@@ -229,7 +269,27 @@ export default function Home() {
   }, [filteredAndSortedData, page]);
 
   /* ===== ESTADOS ===== */
-  if (loading) return <p>Cargando inhaladores…</p>;
+  if (loading) {
+    return (
+      <main style={{ padding: 24 }}>
+        <div className="cargando-wrapper">
+          <p>Cargando inhaladores…</p>
+          <div
+            className={`barra-carga ${hasTotal ? '' : 'barra-carga-ind'}`}
+            aria-label="Cargando"
+          >
+          <div
+            className="barra-carga-progreso"
+            style={{ width: `${progress}%` }}
+          />
+          </div>
+          {hasTotal && progress ? (
+            <div className="barra-carga-texto">{progress}%</div>
+          ) : null}
+        </div>
+      </main>
+    );
+  }
   if (!data.length) return <p>No se han cargado datos</p>;
 
   /* ===== RENDER ===== */
@@ -241,13 +301,11 @@ export default function Home() {
         <div className="filtro-grupo">
           <span className="filtro-titulo">Tipo tratamiento</span>
           <div className="filtro-botones">
-            {["Mono", "Dual", "Triple"].map((v) => (
+            {['Mono', 'Dual', 'Triple'].map((v) => (
               <button
                 key={v}
-                className={`filtro-btn ${fTipoTratamiento === v ? "activo" : ""}`}
-                onClick={() =>
-                  setFTipoTratamiento(fTipoTratamiento === v ? "" : v)
-                }
+                className={`filtro-btn ${fTipoTratamiento === v ? 'activo' : ''}`}
+                onClick={() => setFTipoTratamiento(fTipoTratamiento === v ? '' : v)}
               >
                 {v}
               </button>
@@ -260,18 +318,14 @@ export default function Home() {
           <span className="filtro-titulo">Tipo inhalador</span>
           <div className="filtro-botones">
             {[
-              { value: "pMDI", label: "Presurizado" },
-              { value: "DPI", label: "Polvo seco" },
-              { value: "Nebulizador", label: "Nebulizador" },
+              { value: 'pMDI', label: 'Presurizado' },
+              { value: 'DPI', label: 'Polvo seco' },
+              { value: 'Nebulizador', label: 'Nebulizador' },
             ].map((opt) => (
               <button
                 key={opt.value}
-                className={`filtro-btn ${fTipoInhalador === opt.value ? "activo" : ""}`}
-                onClick={() =>
-                  setFTipoInhalador(
-                    fTipoInhalador === opt.value ? "" : opt.value,
-                  )
-                }
+                className={`filtro-btn ${fTipoInhalador === opt.value ? 'activo' : ''}`}
+                onClick={() => setFTipoInhalador(fTipoInhalador === opt.value ? '' : opt.value)}
               >
                 {opt.label}
               </button>
@@ -284,13 +338,13 @@ export default function Home() {
           <span className="filtro-titulo">Indicación</span>
           <div className="filtro-botones">
             <button
-              className={`filtro-btn ${fAsma ? "activo" : ""}`}
+              className={`filtro-btn ${fAsma ? 'activo' : ''}`}
               onClick={() => setFAsma(!fAsma)}
             >
               Asma
             </button>
             <button
-              className={`filtro-btn ${fEpoc ? "activo" : ""}`}
+              className={`filtro-btn ${fEpoc ? 'activo' : ''}`}
               onClick={() => setFEpoc(!fEpoc)}
             >
               EPOC
@@ -305,7 +359,7 @@ export default function Home() {
             {Object.keys(fClases).map((c) => (
               <button
                 key={c}
-                className={`filtro-btn ${fClases[c] ? "activo" : ""}`}
+                className={`filtro-btn ${fClases[c] ? 'activo' : ''}`}
                 onClick={() => setFClases({ ...fClases, [c]: !fClases[c] })}
               >
                 {c}
@@ -317,17 +371,33 @@ export default function Home() {
         {/* Reset */}
         <div className="filtro-grupo">
           <span className="filtro-titulo">&nbsp;</span>
-          <button
-            className="filtro-btn filtro-reset-btn"
-            onClick={resetFiltros}
-          >
+          <button className="filtro-btn filtro-reset-btn" onClick={resetFiltros}>
             Borrar filtros
           </button>
         </div>
       </div>
 
       <div className="buscador-wrapper">
-        <span className="buscador-icon" aria-hidden />
+        <span className="buscador-icon" aria-hidden>
+          <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            x="0px"
+            y="0px"
+            viewBox="0 0 841.889 595.281"
+            xmlSpace="preserve"
+          >
+            <path
+              fill="currentColor"
+              d="M699.567,542.207L557.889,394.854c36.428-43.304,56.387-97.789,56.387-154.51
+	C614.276,107.82,506.455,0,373.932,0C241.407,0,133.587,107.82,133.587,240.344c0,132.523,107.82,240.344,240.345,240.344
+	c49.751,0,97.161-15.006,137.695-43.491l142.754,148.47c5.967,6.196,13.992,9.614,22.593,9.614c8.141,0,15.862-3.104,21.725-8.747
+	C711.155,574.549,711.552,554.673,699.567,542.207z M373.931,62.699c97.956,0,177.646,79.689,177.646,177.646
+	S471.887,417.99,373.932,417.99c-97.956,0-177.646-79.689-177.646-177.646S275.976,62.699,373.931,62.699z"
+            />
+          </svg>
+        </span>
         <input
           type="text"
           placeholder="Busca palabras clave..."
@@ -340,32 +410,25 @@ export default function Home() {
       {/* CABECERA TABLA + PAGINACIÓN */}
       <div className="tabla-header">
         <div className="tabla-info">
-          Mostrando {paginatedData.length} de {filteredAndSortedData.length}{" "}
-          resultados &nbsp;— Página {page} de {totalPages}
+          Mostrando {paginatedData.length} de {filteredAndSortedData.length} resultados &nbsp;—
+          Página {page} de {totalPages}
         </div>
 
         <div className="paginacion">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-          >
+          <button disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
             ◀
           </button>
 
           {getPaginationPages(page, totalPages).map((p, i) =>
-            p === "..." ? (
+            p === '...' ? (
               <span key={`sep-${i}`} className="paginacion-separador">
                 …
               </span>
             ) : (
-              <button
-                key={p}
-                className={p === page ? "activo" : ""}
-                onClick={() => setPage(p)}
-              >
+              <button key={p} className={p === page ? 'activo' : ''} onClick={() => setPage(p)}>
                 {p}
               </button>
-            ),
+            )
           )}
 
           <button
@@ -387,8 +450,7 @@ export default function Home() {
                 key={i}
                 className="inhalador-card"
                 onClick={() =>
-                  d["POSOLOGIA_FT_4_2_URL"] &&
-                  window.open(d["POSOLOGIA_FT_4_2_URL"], "_blank")
+                  d['POSOLOGIA_FT_4_2_URL'] && window.open(d['POSOLOGIA_FT_4_2_URL'], '_blank')
                 }
               >
                 <div className="card-header">
@@ -406,20 +468,14 @@ export default function Home() {
                 <div className="card-row">
                   <span className="label">Indicación</span>
                   <span>
-                    {d["ASMA (FT 4.1)"] === "Sí" && (
-                      <span className="badge badge-asma">Asma</span>
-                    )}
-                    {d["EPOC (FT 4.1)"] === "Sí" && (
-                      <span className="badge badge-epoc">EPOC</span>
-                    )}
+                    {d['ASMA (FT 4.1)'] === 'Sí' && <span className="badge badge-asma">Asma</span>}
+                    {d['EPOC (FT 4.1)'] === 'Sí' && <span className="badge badge-epoc">EPOC</span>}
                   </span>
                 </div>
 
                 <div className="card-row">
                   <span className="label">Tratamiento</span>
-                  <span
-                    className={`badge badge-${d.TIPO_TRATAMIENTO?.toLowerCase()}`}
-                  >
+                  <span className={`badge badge-${d.TIPO_TRATAMIENTO?.toLowerCase()}`}>
                     {d.TIPO_TRATAMIENTO}
                   </span>
                 </div>
@@ -435,45 +491,26 @@ export default function Home() {
           <table className="tabla-intranet">
             <thead>
               <tr>
-                <th
-                  className="sortable col-nombre"
-                  onClick={() => onSort("nombre")}
-                >
-                  Nombre{" "}
-                  {sortBy === "nombre" && (sortDir === "asc" ? "▲" : "▼")}
+                <th className="sortable col-nombre" onClick={() => onSort('nombre')}>
+                  Nombre {sortBy === 'nombre' && (sortDir === 'asc' ? '▲' : '▼')}
                 </th>
 
-                <th className="sortable col-pa" onClick={() => onSort("vtm")}>
-                  Principio activo{" "}
-                  {sortBy === "vtm" && (sortDir === "asc" ? "▲" : "▼")}
+                <th className="sortable col-pa" onClick={() => onSort('vtm')}>
+                  Principio activo {sortBy === 'vtm' && (sortDir === 'asc' ? '▲' : '▼')}
                 </th>
 
-                <th
-                  className="sortable col-dispositivo"
-                  onClick={() => onSort("DISPOSITIVO")}
-                >
-                  Dispositivo{" "}
-                  {sortBy === "DISPOSITIVO" && (sortDir === "asc" ? "▲" : "▼")}
+                <th className="sortable col-dispositivo" onClick={() => onSort('DISPOSITIVO')}>
+                  Dispositivo {sortBy === 'DISPOSITIVO' && (sortDir === 'asc' ? '▲' : '▼')}
                 </th>
 
                 <th className="col-indicacion">Indicación</th>
 
-                <th
-                  className="sortable col-tipo"
-                  onClick={() => onSort("TIPO_TRATAMIENTO")}
-                >
-                  Tipo{" "}
-                  {sortBy === "TIPO_TRATAMIENTO" &&
-                    (sortDir === "asc" ? "▲" : "▼")}
+                <th className="sortable col-tipo" onClick={() => onSort('TIPO_TRATAMIENTO')}>
+                  Tipo {sortBy === 'TIPO_TRATAMIENTO' && (sortDir === 'asc' ? '▲' : '▼')}
                 </th>
 
-                <th
-                  className="sortable col-lab"
-                  onClick={() => onSort("labcomercializador")}
-                >
-                  Laboratorio{" "}
-                  {sortBy === "labcomercializador" &&
-                    (sortDir === "asc" ? "▲" : "▼")}
+                <th className="sortable col-lab" onClick={() => onSort('labcomercializador')}>
+                  Laboratorio {sortBy === 'labcomercializador' && (sortDir === 'asc' ? '▲' : '▼')}
                 </th>
               </tr>
             </thead>
@@ -485,17 +522,14 @@ export default function Home() {
                   <tr
                     key={i}
                     onClick={() =>
-                      d["POSOLOGIA_FT_4_2_URL"] &&
-                      window.open(d["POSOLOGIA_FT_4_2_URL"], "_blank")
+                      d['POSOLOGIA_FT_4_2_URL'] && window.open(d['POSOLOGIA_FT_4_2_URL'], '_blank')
                     }
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                   >
                     <td className="col-nombre nombre-cell">
                       <span className="nombre-wrapper" title={n.completo}>
                         <strong className="nombre-marca">{n.marca}</strong>
-                        {n.resto && (
-                          <span className="nombre-resto">&nbsp;{n.resto}</span>
-                        )}
+                        {n.resto && <span className="nombre-resto">&nbsp;{n.resto}</span>}
                       </span>
                     </td>
 
@@ -504,18 +538,16 @@ export default function Home() {
                     <td className="col-dispositivo">{d.DISPOSITIVO}</td>
 
                     <td className="col-indicacion">
-                      {d["ASMA (FT 4.1)"] === "Sí" && (
+                      {d['ASMA (FT 4.1)'] === 'Sí' && (
                         <span className="badge badge-asma">Asma</span>
                       )}
-                      {d["EPOC (FT 4.1)"] === "Sí" && (
+                      {d['EPOC (FT 4.1)'] === 'Sí' && (
                         <span className="badge badge-epoc">EPOC</span>
                       )}
                     </td>
 
                     <td className="col-tipo">
-                      <span
-                        className={`badge badge-${d.TIPO_TRATAMIENTO?.toLowerCase()}`}
-                      >
+                      <span className={`badge badge-${d.TIPO_TRATAMIENTO?.toLowerCase()}`}>
                         {d.TIPO_TRATAMIENTO}
                       </span>
                     </td>
@@ -530,27 +562,20 @@ export default function Home() {
       )}
       {/* PAGINACIÓN */}
       <div className="paginacion">
-        <button
-          disabled={page === 1}
-          onClick={() => setPage((p) => Math.max(1, p - 1))}
-        >
+        <button disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
           ◀ Anterior
         </button>
 
         {getPaginationPages(page, totalPages).map((p, i) =>
-          p === "..." ? (
+          p === '...' ? (
             <span key={`sep-${i}`} className="paginacion-separador">
               …
             </span>
           ) : (
-            <button
-              key={p}
-              className={p === page ? "activo" : ""}
-              onClick={() => setPage(p)}
-            >
+            <button key={p} className={p === page ? 'activo' : ''} onClick={() => setPage(p)}>
               {p}
             </button>
-          ),
+          )
         )}
 
         <button

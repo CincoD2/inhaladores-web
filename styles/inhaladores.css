@@ -221,13 +221,56 @@
   background: #fecaca;
 }
 
-
 /* ESTILO DE PAGINACIÓN */
 .paginacion {
   display: flex;
   gap: 6px;
   justify-content: center;
   margin: 20px 0;
+}
+
+/* Barra de carga */
+.barra-carga {
+  width: 100%;
+  max-width: 420px;
+  height: 8px;
+  margin-top: 10px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.cargando-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.barra-carga-progreso {
+  height: 100%;
+  background: #5a7f8a;
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+
+.barra-carga-ind .barra-carga-progreso {
+  width: 40%;
+  animation: carga 1.2s ease-in-out infinite;
+}
+
+@keyframes carga {
+  0% {
+    transform: translateX(-60%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
+}
+
+.barra-carga-texto {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
 }
 
 .paginacion button {
@@ -325,12 +368,11 @@
   left: 14px;
   transform: translateY(-50%);
   width: 100%;
-  height: 20px;
+  height: 40px;
   background-repeat: no-repeat;
   background-size: contain;
   opacity: 0.55;
   pointer-events: none;
-  background-image: url("https://www.riberasalud.com/wp-content/themes/grupo-ribera/assets/search.svg");
 }
 
 .buscador-input {
@@ -369,7 +411,6 @@ th.sortable span {
 
 /* ===== MÓVIL ===== */
 @media (max-width: 768px) {
-
   .tabla-intranet {
     display: none;
   }

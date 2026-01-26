@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const MESES = 5.5;
 
@@ -7,9 +7,11 @@ function eur(n) {
 }
 
 export default function Calculadora() {
-  const lastUpdated = new Date().toLocaleString("es-ES");
+  const [lastUpdated, setLastUpdated] = useState('');
 
   useEffect(() => {
+    setLastUpdated(new Date().toLocaleString('es-ES'));
+
     const tea = document.getElementById('tea');
     const trn = document.getElementById('trn');
     const jfd = document.getElementById('jfd');
@@ -136,7 +138,7 @@ export default function Calculadora() {
             <input readOnly defaultValue="67.42" />
             <label>Especialidad</label>
             <input readOnly defaultValue="83.33" />
-            <label>Atención ordinaria (h)</label>
+            <label>Atención continuada (h)</label>
             <input type="number" id="tea_ord" defaultValue="0" />
             <label>Atención festivo (h)</label>
             <input type="number" id="tea_fes" defaultValue="0" />

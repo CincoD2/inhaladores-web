@@ -30,9 +30,9 @@
   {
     "id": "CÓLICO RENAL",
     "titulo": "Cólico renal",
-    "ruta": "/dietas_recom/CÓLICO RENAL.txt",
-    "tags": ["recomendacion", "nefrourológico"],
-    "sistemas": ["nefrourológico"]
+    "ruta": "/dietas_recom/CRU.txt",
+    "tags": ["recomendacion", "nefrourológico", "cólico", "CRU", "litiasis"],
+    "sistemas": ["nefrourológico", "urológico"]
   },
   {
     "id": "CROHN",
